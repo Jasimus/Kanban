@@ -17,6 +17,17 @@ public class Tarea
     public string Color { get => color; set => color = value; }
     public int? IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
     internal EstadoTarea Estado { get => estado; set => estado = value; }
+
+    public Tarea(int id, int idTablero, string nombre, string descripcion, string color, int estado, int? idUsuarioAsignado)
+    {
+        this.id = id;
+        this.idTablero = idTablero;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.color = color;
+        this.estado = (EstadoTarea)estado;
+        this.idUsuarioAsignado = idUsuarioAsignado;
+    }
 }
 
 enum EstadoTarea
