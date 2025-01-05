@@ -3,7 +3,7 @@ namespace TableroRepository_space;
 using System.ComponentModel;
 using Microsoft.Data.Sqlite;
 using Tablero_space;
-public class TaberoRepository
+public class TableroRepository
 {
     string connectionString = "Data Source=db/Kanban1.db;Cache=Shared;";
     public int CrearTablero(Tablero tablero)

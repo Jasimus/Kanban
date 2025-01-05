@@ -80,7 +80,7 @@ public class TareaRepository
         return tarea;
     }
 
-    public List<Tarea> ListarTareasDeUsuario(int id)
+    public List<Tarea> ListarTareasDeUsuario(int? id)
     {
         List<Tarea> tareas = null;
         using (SqliteConnection connection = new SqliteConnection(connectionString))
