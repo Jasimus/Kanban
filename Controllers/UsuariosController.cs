@@ -74,4 +74,20 @@ public class UsuariosController : Controller
         ViewBag.error = "no se pudo eliminar el usuario";
         return View();
     }
+
+    [HttpGet]
+    public IActionResult CambiarPassword()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult CambiarPassword(int id, string password)
+    {
+        int cant = _usuarioRepository.CambiarPassword(id, password);
+        if (ModelState.IsValid && cant != 0)
+        return RedirectToAction("Login", "Logueo");
+        ViewBag.error = "no se pudo cambiar la contraseña";
+        return View();
+    }
 }

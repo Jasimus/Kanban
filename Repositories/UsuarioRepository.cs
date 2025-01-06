@@ -4,12 +4,12 @@ using Usuario_space;
 
 public interface IUsuarioRepository
 {
-    int CrearUsuario(Usuario usuario);
-    int ModificarUsuario(int id, Usuario usuario);
-    List<Usuario> ListarUsuarios();
-    Usuario DetallesUsuario(int id);
-    int EliminarUsuario(int id);
-    int CambiarPassword(int id, string password);
+    public int CrearUsuario(Usuario usuario);
+    public int ModificarUsuario(int id, Usuario usuario);
+    public List<Usuario> ListarUsuarios();
+    public Usuario DetallesUsuario(int id);
+    public int EliminarUsuario(int id);
+    public int CambiarPassword(int id, string password);
 }
 
 public class UsuarioRepository : IUsuarioRepository
@@ -54,7 +54,7 @@ public class UsuarioRepository : IUsuarioRepository
             SqliteCommand command = new SqliteCommand(query, connection);
             command.Parameters.AddWithValue("@nombre", usuario.Nombre);
             command.Parameters.AddWithValue("@password", usuario.Password);
-            command.Parameters.AddWithValue("@rol", usuario.RolUsuario);
+            command.Parameters.AddWithValue("@rol", (int)usuario.RolUsuario);
             command.Parameters.AddWithValue("@id", id);
 
             cant = command.ExecuteNonQuery();
@@ -67,7 +67,7 @@ public class UsuarioRepository : IUsuarioRepository
 
     public List<Usuario> ListarUsuarios()
     {
-        List<Usuario> usuarios = null;
+        List<Usuario> usuarios = new List<Usuario>();
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();

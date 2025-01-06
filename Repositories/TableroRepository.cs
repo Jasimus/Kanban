@@ -6,12 +6,12 @@ using Tablero_space;
 
 public interface ITableroRepository
 {
-    int CrearTablero(Tablero tablero);
-    int ModificarTablero(int id, Tablero tablero);
-    Tablero DetallesTablero(int id);
-    List<Tablero> ListarTableros();
-    List<Tablero> ListarTablerosDeUsuario(int id);
-    int EliminarTablero(int id);
+    public int CrearTablero(Tablero tablero);
+    public int ModificarTablero(int id, Tablero tablero);
+    public Tablero DetallesTablero(int id);
+    public List<Tablero> ListarTableros();
+    public List<Tablero> ListarTablerosDeUsuario(int id);
+    public int EliminarTablero(int id);
 
 }
 
@@ -96,7 +96,7 @@ public class TableroRepository : ITableroRepository
 
     public List<Tablero> ListarTableros()
     {
-        List<Tablero> tableros = null;
+        List<Tablero> tableros = new List<Tablero>();
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
@@ -122,7 +122,7 @@ public class TableroRepository : ITableroRepository
 
     public List<Tablero> ListarTablerosDeUsuario(int id)
     {
-        List<Tablero> tableros = null;
+        List<Tablero> tableros = new List<Tablero>();
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();

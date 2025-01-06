@@ -4,13 +4,13 @@ using Tarea_space;
 
 public interface ITareaRepository
 {
-    int CrearTarea(int id, Tarea tarea);
-    int ModificarTarea(int id, Tarea tarea);
-    Tarea DetallesTarea(int id);
-    List<Tarea> ListarTareasDeUsuario(int? id);
-    List<Tarea> ListarTareasDeTablero(int id);
-    int EliminarTarea(int id);
-    int AsignarTarea(int idTarea, int idUsuario);
+    public int CrearTarea(int id, Tarea tarea);
+    public int ModificarTarea(int id, Tarea tarea);
+    public Tarea DetallesTarea(int id);
+    public List<Tarea> ListarTareasDeUsuario(int? id);
+    public List<Tarea> ListarTareasDeTablero(int id);
+    public int EliminarTarea(int id);
+    public int AsignarTarea(int idTarea, int idUsuario);
 }
 
 
@@ -100,7 +100,7 @@ public class TareaRepository : ITareaRepository
 
     public List<Tarea> ListarTareasDeUsuario(int? id)
     {
-        List<Tarea> tareas = null;
+        List<Tarea> tareas = new List<Tarea>();
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
@@ -127,7 +127,7 @@ public class TareaRepository : ITareaRepository
 
     public List<Tarea> ListarTareasDeTablero(int id)
     {
-        List<Tarea> tareas = null;
+        List<Tarea> tareas = new List<Tarea>();
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();

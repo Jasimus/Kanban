@@ -1,0 +1,34 @@
+@{
+    ViewData["Title"] = "Modificar Usuario";
+}
+@using Kanban.Models
+@model Usuario_space.Usuario
+
+@if(ViewBag.error != null && ViewBag.error != "")
+{
+    <div class="alert alert-warning" role="alert">
+        @ViewBag.error
+    </div>
+}
+
+<h1 class="mb-5">Eliminar Usuario</h1>
+
+<div class="d-flex justify-content-center min-vh-100">
+<form method="post" asp-action="EliminarUsuario" asp-controller="Usuarios">
+    <legend class="text-center">¿Está seguro que desea eliminar el usuario @Model.Nombre?</legend>
+
+    <input type="hidden" value="@Model.Id" asp-for="Id">
+    <input type="hidden" value="@Model.Nombre" asp-for="Nombre">
+    <input type="hidden" value="@Model.Password" asp-for="Password">
+    <input type="hidden" value="@Model.RolUsuario" asp-for="RolUsuario">
+
+        <div class="form-group row">
+            <div class="col text-center">
+                <input type="submit" class="btn btn-danger px-3" value="Si">
+            </div>
+            <div class="col text-center">
+                <a asp-action="ListarUsuarios" asp-controller="Usuarios" class="btn btn-primary">No</a>
+            </div>
+        </div>
+</form>
+</div>

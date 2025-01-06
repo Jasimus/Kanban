@@ -1,9 +1,15 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Usuario_space;
 
 public class Usuario
 {
     int id;
+
+    [Required]
     string nombre;
+
+    [Required]
     string password;
     RolUsuario rolUsuario;
 
@@ -19,6 +25,8 @@ public class Usuario
         this.password = password;
         rolUsuario = (RolUsuario)rol;
     }
+
+    public Usuario(){}
 }
 
 public enum RolUsuario

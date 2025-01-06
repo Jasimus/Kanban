@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Crear Usuario";
+    var rol = Context.Session.GetInt32("rol");
+    var nombre = Context.Session.GetString("nombre");
+    string display = "none";
+}
+@using Kanban.Models
+@model List<Usuario_space.Usuario>
+
+@if(rol == 1)
+{
+    display = "block";
+}
+
+<h1 class="mb-5">Lista de usuarios</h1>
+
+<table class="table table-bordered">
+<tr>
+    <th scope="col">Id</th>
+    <th scope="col">Nombre</th>
+    <th scope="col">Rol</th>
+    <th scope="col" class="d-@display"></th>
+</tr>
+
+@foreach(Usuario_space.Usuario u in @Model)
+{
+    <tr>
+        <td scope="col">@u.Id</td>
+        <td scope="col">@u.Nombre</td>
+        <td scope="col">@u.RolUsuario</td>
+
+        <td class="text-center d-@display">
+            <a asp-action="ModificarUsuario" asp-route-id="@u.Id" class="btn btn-warning">Modificar</a>
+            <a asp-action="EliminarUsuario" asp-route-id="@u.Id" class="btn btn-danger">Eliminar</a>
+        </td>
+    </tr>
+}
+
+</table>
