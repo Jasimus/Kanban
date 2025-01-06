@@ -1,13 +1,30 @@
 namespace UsuarioRepository_space;
 using Microsoft.Data.Sqlite;
 using Usuario_space;
-public class UsuarioRepository
+
+public interface IUsuarioRepository
 {
-    string connectionString = "Data Source=db/Kanban1.db;Cache=Shared;";
+    int CrearUsuario(Usuario usuario);
+    int ModificarUsuario(int id, Usuario usuario);
+    List<Usuario> ListarUsuarios();
+    Usuario DetallesUsuario(int id);
+    int EliminarUsuario(int id);
+    int CambiarPassword(int id, string password);
+}
+
+public class UsuarioRepository : IUsuarioRepository
+{
+    string _ConnectionString;
+
+    public UsuarioRepository(string ConnectionString)
+    {
+        _ConnectionString = ConnectionString;
+    }
+
     public int CrearUsuario(Usuario usuario)
     {
         int cant = 0;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -28,7 +45,7 @@ public class UsuarioRepository
     public int ModificarUsuario(int id, Usuario usuario)
     {
         int cant = 0;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -51,7 +68,7 @@ public class UsuarioRepository
     public List<Usuario> ListarUsuarios()
     {
         List<Usuario> usuarios = null;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -77,7 +94,7 @@ public class UsuarioRepository
     public Usuario DetallesUsuario(int id)
     {
         Usuario usuario = null;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -103,7 +120,7 @@ public class UsuarioRepository
     public int EliminarUsuario(int id)
     {
         int cant = 0;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -123,7 +140,7 @@ public class UsuarioRepository
     public int CambiarPassword(int id, string password)
     {
         int cant = 0;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 

@@ -6,7 +6,12 @@ using UsuarioRepository_space;
 
 public class UsuariosController : Controller
 {
-    UsuarioRepository ur = new UsuarioRepository();
+    readonly IUsuarioRepository _usuarioRepository;
+
+    public UsuariosController(IUsuarioRepository usuarioRepository)
+    {
+        _usuarioRepository = usuarioRepository;
+    }
 
     [HttpGet]
     public IActionResult Index()
@@ -17,7 +22,7 @@ public class UsuariosController : Controller
     [HttpGet]
     public IActionResult ListarUsuarios()
     {
-        return View(ur.ListarUsuarios());
+        return View(_usuarioRepository.ListarUsuarios());
     }
 
     [HttpGet]
@@ -29,7 +34,7 @@ public class UsuariosController : Controller
     [HttpPost]
     public IActionResult CrearUsuario(Usuario usuario)
     {
-        int cant = ur.CrearUsuario(usuario);
+        int cant = _usuarioRepository.CrearUsuario(usuario);
         if (ModelState.IsValid && cant != 0)
         return RedirectToAction("ListarUsuarios", "Usuarios");
         ViewBag.error = "no se pudo crear el usuario";
@@ -39,14 +44,14 @@ public class UsuariosController : Controller
     [HttpGet]
     public IActionResult ModificarUsuario(int id)
     {
-        var usuario = ur.DetallesUsuario(id);
+        var usuario = _usuarioRepository.DetallesUsuario(id);
         return View(usuario);
     }
 
     [HttpPost]
     public IActionResult ModificarUsuario(Usuario usuario)
     {
-        int cant = ur.ModificarUsuario(usuario.Id, usuario);
+        int cant = _usuarioRepository.ModificarUsuario(usuario.Id, usuario);
         if (ModelState.IsValid && cant != 0)
         return RedirectToAction("ListarUsuarios", "Usuarios");
         ViewBag.error = "no se pudo modificar el usuario";
@@ -56,14 +61,14 @@ public class UsuariosController : Controller
     [HttpGet]
     public IActionResult EliminarUsuario(int id)
     {
-        var usuario = ur.DetallesUsuario(id);
+        var usuario = _usuarioRepository.DetallesUsuario(id);
         return View(usuario);
     }
 
     [HttpPost]
     public IActionResult EliminarUsuario(Usuario usuario)
     {
-        int cant = ur.EliminarUsuario(usuario.Id);
+        int cant = _usuarioRepository.EliminarUsuario(usuario.Id);
         if (ModelState.IsValid && cant != 0)
         return RedirectToAction("ListarUsuarios", "Usuarios");
         ViewBag.error = "no se pudo eliminar el usuario";

@@ -6,7 +6,12 @@ using Tarea_space;
 
 public class TareasController : Controller
 {
-    TareaRepository tr = new TareaRepository();
+    readonly ITareaRepository _tareaRepository;
+
+    public TareasController(ITareaRepository tareaRepository)
+    {
+        _tareaRepository = tareaRepository;
+    }
 
     [HttpGet]
     public IActionResult Index()
@@ -17,7 +22,7 @@ public class TareasController : Controller
     [HttpGet]
     public IActionResult ListarTareaDeTablero(int id)
     {
-        var tareas = tr.ListarTareasDeTablero(id);
+        var tareas = _tareaRepository.ListarTareasDeTablero(id);
         return View(tareas);
     }
 
@@ -25,7 +30,7 @@ public class TareasController : Controller
     public IActionResult ListarTareaDeUsuario()
     {
         int? id = HttpContext.Session.GetInt32("idUsuario");
-        var tareas = tr.ListarTareasDeUsuario(id);
+        var tareas = _tareaRepository.ListarTareasDeUsuario(id);
         return View(tareas);
     }
 
@@ -38,7 +43,7 @@ public class TareasController : Controller
     [HttpPost]
     public IActionResult CrearTarea(int idTablero, Tarea tarea)
     {
-        int cant = tr.CrearTarea(idTablero, tarea);
+        int cant = _tareaRepository.CrearTarea(idTablero, tarea);
         if (ModelState.IsValid && cant != 0)
         return RedirectToAction("ListarTareasDeTablero", new {id = idTablero});
         ViewBag.error = "no se pudo crear la tarea";
@@ -48,7 +53,7 @@ public class TareasController : Controller
     [HttpGet]
     public IActionResult ModificarTarea(int idTablero, int id)
     {
-        var tarea = tr.DetallesTarea(id);
+        var tarea = _tareaRepository.DetallesTarea(id);
         ViewBag.idTablero = idTablero;
         return View(tarea);
     }
@@ -56,7 +61,7 @@ public class TareasController : Controller
     [HttpPost]
     public IActionResult ModificarTarea(int idTablero, Tarea tarea)
     {
-        int cant = tr.ModificarTarea(tarea.Id, tarea);
+        int cant = _tareaRepository.ModificarTarea(tarea.Id, tarea);
         if (ModelState.IsValid && cant != 0)
         return RedirectToAction("ListarTareasDeTablero", new {id = idTablero});
         ViewBag.error = "no se pudo modificar la tarea";
@@ -66,7 +71,7 @@ public class TareasController : Controller
     [HttpGet]
     public IActionResult EliminarTarea(int idTablero, int id)
     {
-        var tarea = tr.DetallesTarea(id);
+        var tarea = _tareaRepository.DetallesTarea(id);
         ViewBag.idTablero = idTablero;
         return View(tarea);
     }
@@ -74,7 +79,7 @@ public class TareasController : Controller
     [HttpPost]
     public IActionResult EliminarTarea(int idTablero, Tarea tarea)
     {
-        int cant = tr.EliminarTarea(tarea.Id);
+        int cant = _tareaRepository.EliminarTarea(tarea.Id);
         if (ModelState.IsValid && cant != 0)
         return RedirectToAction("ListarTareasDeTablero", new {id = idTablero});
         ViewBag.error = "no se pudo eliminar la tarea";

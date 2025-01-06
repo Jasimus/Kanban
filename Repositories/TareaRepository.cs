@@ -1,14 +1,32 @@
 namespace TareaRepository_space;
 using Microsoft.Data.Sqlite;
 using Tarea_space;
-public class TareaRepository
+
+public interface ITareaRepository
 {
-    string connectionString = "Data Source=db/Kanban1.db;Cache=Shared;";
+    int CrearTarea(int id, Tarea tarea);
+    int ModificarTarea(int id, Tarea tarea);
+    Tarea DetallesTarea(int id);
+    List<Tarea> ListarTareasDeUsuario(int? id);
+    List<Tarea> ListarTareasDeTablero(int id);
+    int EliminarTarea(int id);
+    int AsignarTarea(int idTarea, int idUsuario);
+}
+
+
+public class TareaRepository : ITareaRepository
+{
+    string _ConnectionString;
+
+    public TareaRepository(string ConnectionString)
+    {
+        _ConnectionString = ConnectionString;
+    }
 
     public int CrearTarea(int id, Tarea tarea)
     {
         int cant = 0;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -32,7 +50,7 @@ public class TareaRepository
     public int ModificarTarea(int id, Tarea tarea)
     {
         int cant = 0;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -58,7 +76,7 @@ public class TareaRepository
     public Tarea DetallesTarea(int id)
     {
         Tarea tarea = null;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -83,7 +101,7 @@ public class TareaRepository
     public List<Tarea> ListarTareasDeUsuario(int? id)
     {
         List<Tarea> tareas = null;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -110,7 +128,7 @@ public class TareaRepository
     public List<Tarea> ListarTareasDeTablero(int id)
     {
         List<Tarea> tareas = null;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -137,7 +155,7 @@ public class TareaRepository
     public int EliminarTarea(int id)
     {
         int cant = 0;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -157,7 +175,7 @@ public class TareaRepository
     public int AsignarTarea(int idTarea, int idUsuario)
     {
         int cant = 0;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 

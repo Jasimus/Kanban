@@ -1,15 +1,34 @@
 namespace TableroRepository_space;
 
-using System.ComponentModel;
 using Microsoft.Data.Sqlite;
 using Tablero_space;
-public class TableroRepository
+
+
+public interface ITableroRepository
 {
-    string connectionString = "Data Source=db/Kanban1.db;Cache=Shared;";
+    int CrearTablero(Tablero tablero);
+    int ModificarTablero(int id, Tablero tablero);
+    Tablero DetallesTablero(int id);
+    List<Tablero> ListarTableros();
+    List<Tablero> ListarTablerosDeUsuario(int id);
+    int EliminarTablero(int id);
+
+}
+
+
+
+public class TableroRepository : ITableroRepository
+{
+    readonly string _ConnectionString;
+
+    public TableroRepository(string ConnectionString)
+    {
+        _ConnectionString = ConnectionString;
+    }
     public int CrearTablero(Tablero tablero)
     {
         int cant = 0;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -30,7 +49,7 @@ public class TableroRepository
     public int ModificarTablero(int id, Tablero tablero)
     {
         int cant = 0;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -53,7 +72,7 @@ public class TableroRepository
     public Tablero DetallesTablero(int id)
     {
         Tablero tablero = null;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -78,7 +97,7 @@ public class TableroRepository
     public List<Tablero> ListarTableros()
     {
         List<Tablero> tableros = null;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -104,7 +123,7 @@ public class TableroRepository
     public List<Tablero> ListarTablerosDeUsuario(int id)
     {
         List<Tablero> tableros = null;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 
@@ -131,7 +150,7 @@ public class TableroRepository
     public int EliminarTablero(int id)
     {
         int cant = 0, cant1 = 0;
-        using (SqliteConnection connection = new SqliteConnection(connectionString))
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
                 

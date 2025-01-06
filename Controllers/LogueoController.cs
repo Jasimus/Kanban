@@ -5,7 +5,12 @@ using UsuarioRepository_space;
 
 public class LogueoController : Controller
 {
-    UsuarioRepository ur = new UsuarioRepository();
+    readonly IUsuarioRepository _usuarioRepository;
+
+    public LogueoController(IUsuarioRepository usuarioRepository)
+    {
+        _usuarioRepository = usuarioRepository;
+    }
 
     [HttpGet]
     public IActionResult Login()
@@ -17,7 +22,7 @@ public class LogueoController : Controller
     [HttpPost]
     public IActionResult Login(string username, string password)
     {
-        var usuario = ur.ListarUsuarios().FirstOrDefault(u => u.Nombre == username && u.Password == password);
+        var usuario = _usuarioRepository.ListarUsuarios().FirstOrDefault(u => u.Nombre == username && u.Password == password);
 
         if(usuario == null) return View();
 

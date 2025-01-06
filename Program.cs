@@ -1,3 +1,7 @@
+using TableroRepository_space;
+using TareaRepository_space;
+using UsuarioRepository_space;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,6 +13,13 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true; // Necesario para GDPR
 });
+
+var CadenaDeConexion = builder.Configuration.GetConnectionString("SqliteConexion")!.ToString();
+
+builder.Services.AddSingleton(CadenaDeConexion);
+builder.Services.AddScoped<ITableroRepository, TableroRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<ITareaRepository, TareaRepository>();
 
 var app = builder.Build();
 
