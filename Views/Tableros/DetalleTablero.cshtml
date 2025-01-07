@@ -1,10 +1,152 @@
 @{
     ViewData["Title"] = "Detalle de tablero";
-    var rol = Context.Session.GetInt32("rol");
-    var nombre = Context.Session.GetString("nombre");
     string display = "none";
 }
 @using Kanban.Models
 @model TableroVM_space.TableroVM
 
+<style>
+    #ventana
+    {
+        overflow: auto;
+        border: 2px solid black;
+        background-color: rgb(156, 156, 156);    
+    }
 
+    #mostrar-hover
+    {
+        display: none;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.8);
+        color:white;
+        padding: 0.5vw;
+    }
+
+    .hover-container:hover #mostrar-hover
+    {
+        display: block;
+    }
+
+    .hover-container
+    {
+        position: relative;
+        overflow: visible;
+    }
+
+    .desplegable
+    {
+        max-height: 43px;
+        width: auto;
+        background-color: rgb(255, 229, 146);
+        transition: max-height 0.5s ease;
+        overflow: hidden;
+    }
+
+    .desplegable:hover
+    {
+        max-height: 500px;
+    }
+</style>
+
+
+<header class="mb-5">
+        <h1>Tablero: @Model.Tablero.Nombre</h1>
+    </header>
+
+<div class="desplegable mb-3 px-1 pt-1">
+    <h3>Descripción</h3>
+    <p>@Model.Tablero.Descripcion</p>
+</div>
+
+<div class="row">
+    <div class="col" id="ventana">
+        <h2>Ideas</h2>
+        <ul>
+            @foreach(var t in @Model.Ideas)
+            {
+                <li class="hover-container">
+                    <div class="w-100">
+                        <p>@t.Nombre</p>
+                    </div>
+                    <div class="w-100">
+                        <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning" asp-route-id="@t.Id">Detalle</a>
+                    </div>
+                    <p id="#mostrar-hover">@t.Descripcion</p>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div class="col" id="ventana">
+        <h2>ToDo</h2>
+        <ul>
+            @foreach(var t in @Model.ToDo)
+            {
+                <li class="hover-container">
+                    <div class="w-100">
+                        <p>@t.Nombre</p>
+                    </div>
+                    <div class="w-100">
+                        <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning" asp-route-id="@t.Id">Detalle</a>
+                    </div>
+                    <p id="#mostrar-hover">@t.Descripcion</p>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div class="col" id="ventana">
+        <h2>Doing</h2>
+        <ul>
+            @foreach(var t in @Model.Doing)
+            {
+                <li class="hover-container">
+                    <div class="w-100">
+                        <p>@t.Nombre</p>
+                    </div>
+                    <div class="w-100">
+                        <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning" asp-route-id="@t.Id">Detalle</a>
+                    </div>
+                    <p id="#mostrar-hover">@t.Descripcion</p>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div class="col" id="ventana">
+        <h2>Reviw</h2>
+        <ul>
+            @foreach(var t in @Model.Review)
+            {
+                <li class="hover-container">
+                    <div class="w-100">
+                        <p>@t.Nombre</p>
+                    </div>
+                    <div class="w-100">
+                        <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning" asp-route-id="@t.Id">Detalle</a>
+                    </div>
+                    <p id="#mostrar-hover">@t.Descripcion</p>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div class="col" id="ventana">
+        <h2>Done</h2>
+        <ul>
+            @foreach(var t in @Model.Done)
+            {
+                <li class="hover-container">
+                    <div class="w-100">
+                        <p>@t.Nombre</p>
+                    </div>
+                    <div class="w-100">
+                        <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning" asp-route-id="@t.Id">Detalle</a>
+                    </div>
+                    <p id="#mostrar-hover">@t.Descripcion</p>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

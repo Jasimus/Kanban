@@ -42,7 +42,7 @@ public class TablerosController : Controller
     {
         int cant = _tableroRepository.CrearTablero(tablero);
         if (ModelState.IsValid && cant != 0)
-        return RedirectToAction("ListarTableros", "Tableros");
+        return RedirectToAction("Index", "Usuarios");
         ViewBag.error = "no se pudo crear el tablero";
         return View();
     }
@@ -70,11 +70,11 @@ public class TablerosController : Controller
         var tablero = _tableroRepository.DetallesTablero(id);
         var tableroVM = new TableroVM{
             Tablero = tablero,
-            Ideas = (List<Tarea>)_tareaRepository.ListarTareasDeTablero(id).Where(t => t.Estado == EstadoTarea.Ideas),
-            ToDo = (List<Tarea>)_tareaRepository.ListarTareasDeTablero(id).Where(t => t.Estado == EstadoTarea.ToDo),
-            Doing = (List<Tarea>)_tareaRepository.ListarTareasDeTablero(id).Where(t => t.Estado == EstadoTarea.Doing),
-            Review = (List<Tarea>)_tareaRepository.ListarTareasDeTablero(id).Where(t => t.Estado == EstadoTarea.Review),
-            Done = (List<Tarea>)_tareaRepository.ListarTareasDeTablero(id).Where(t => t.Estado == EstadoTarea.Done)
+            Ideas = _tareaRepository.ListarTareasDeTablero(id).Where(t => t.Estado == EstadoTarea.Ideas).ToList(),
+            ToDo = _tareaRepository.ListarTareasDeTablero(id).Where(t => t.Estado == EstadoTarea.ToDo).ToList(),
+            Doing = _tareaRepository.ListarTareasDeTablero(id).Where(t => t.Estado == EstadoTarea.Doing).ToList(),
+            Review = _tareaRepository.ListarTareasDeTablero(id).Where(t => t.Estado == EstadoTarea.Review).ToList(),
+            Done = _tareaRepository.ListarTareasDeTablero(id).Where(t => t.Estado == EstadoTarea.Done).ToList()
 
         };
 

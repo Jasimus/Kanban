@@ -19,4 +19,6 @@ public class Tablero
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
+
+    public Tablero(){}
 }

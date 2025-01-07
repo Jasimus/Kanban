@@ -18,9 +18,19 @@
     {
         overflow: auto;
         border: 2px solid black;
-        background-color: rgb(156, 156, 156);
-    using Tarea_space;
-    using Tarea_space;
+        background-color: rgb(156, 156, 156);    
+    }
+
+    ul
+    {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li#tablero
+    {
+        background-color: aquamarine;
     }
 </style>
 
@@ -41,7 +51,7 @@
                             <a asp-action="DetalleTablero" asp-controller="Tableros" asp-route-id="@t.IdTablero" class="btn btn-primary">Tablero</a>
                         </div>
                         <div class="w-100">
-                            <p>@t.Descripcion</p>
+                            <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning" asp-route-id="@t.Id">Detalle</a>
                         </div>
                     </li>
                 }
@@ -54,14 +64,9 @@
             <ul>
                 @foreach(var t in @Model.Tableros)
                 {
-                    <li>
-                        <div class="w-100">
-                            <p>@t.Nombre</p>
-                            <a asp-action="DetalleTablero" asp-controller="Tableros" asp-route-id="@t.Id" class="btn btn-primary">Detalles</a>
-                        </div>
-                        <div class="w-100">
-                            <p>@t.Descripcion</p>
-                        </div>
+                    <li class="w-100 my-3 row" id="tablero">
+                        <p class="col-9">@t.Nombre</p>
+                        <a asp-action="DetalleTablero" asp-controller="Tableros" asp-route-id="@t.Id" class="col-3 btn btn-primary">Detalles</a>
                     </li>
                 }
             </ul>
