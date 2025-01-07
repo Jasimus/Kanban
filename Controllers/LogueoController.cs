@@ -37,7 +37,7 @@ public class LogueoController : Controller
             HttpContext.Session.SetInt32("rol", (int)usuario.RolUsuario);
             HttpContext.Session.SetString("nombre", usuario.Nombre);
 
-            return RedirectToAction("ListarUsuarios", "Usuarios");
+            return RedirectToAction("Index", "Usuarios");
         }
         ViewBag.error = "no existen usuarios";
         return View();

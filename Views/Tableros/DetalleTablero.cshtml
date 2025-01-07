@@ -1,0 +1,10 @@
+@{
+    ViewData["Title"] = "Detalle de tablero";
+    var rol = Context.Session.GetInt32("rol");
+    var nombre = Context.Session.GetString("nombre");
+    string display = "none";
+}
+@using Kanban.Models
+@model TableroVM_space.TableroVM
+
+
