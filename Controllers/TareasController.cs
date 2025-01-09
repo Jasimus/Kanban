@@ -50,6 +50,7 @@ public class TareasController : Controller
     [HttpPost]
     public IActionResult CrearTarea(Tarea tarea)
     {
+        Console.WriteLine((int)tarea.Estado);
         int cant = _tareaRepository.CrearTarea(tarea.IdTablero, tarea);
         if (ModelState.IsValid && cant != 0)
         return RedirectToAction("DetalleTablero", "Tableros", new {id = tarea.IdTablero});
@@ -59,10 +60,9 @@ public class TareasController : Controller
     }
 
     [HttpGet]
-    public IActionResult ModificarTarea(int idTablero, int id)
+    public IActionResult ModificarTarea(int id)
     {
         var tarea = _tareaRepository.DetallesTarea(id);
-        ViewBag.idTablero = idTablero;
         return View(tarea);
     }
 
@@ -71,11 +71,12 @@ public class TareasController : Controller
     {
         int cant = _tareaRepository.ModificarTarea(tarea.Id, tarea);
         if (ModelState.IsValid && cant != 0)
-        return RedirectToAction("ListarTareasDeTablero", new {id = idTablero});
+        return RedirectToAction("DetalleTablero", "Tableros", new {id = idTablero});
         ViewBag.error = "no se pudo modificar la tarea";
         return View();
     }
 
+    [HttpGet]
     public IActionResult DetalleTarea(int id)
     {
         Tarea tarea = _tareaRepository.DetallesTarea(id);
@@ -85,19 +86,20 @@ public class TareasController : Controller
     }
 
     [HttpGet]
-    public IActionResult EliminarTarea(int idTablero, int id)
+    [Route("Tareas/EliminarTarea")]
+    public IActionResult EliminarTarea(int id)
     {
         var tarea = _tareaRepository.DetallesTarea(id);
-        ViewBag.idTablero = idTablero;
         return View(tarea);
     }
 
     [HttpPost]
-    public IActionResult EliminarTarea(int idTablero, Tarea tarea)
+    [Route("Tareas/EliminarTareaPost")]
+    public IActionResult EliminarTarea(Tarea tarea)
     {
         int cant = _tareaRepository.EliminarTarea(tarea.Id);
         if (ModelState.IsValid && cant != 0)
-        return RedirectToAction("ListarTareasDeTablero", new {id = idTablero});
+        return RedirectToAction("DetalleTablero", "Tableros", new {id = tarea.IdTablero});
         ViewBag.error = "no se pudo eliminar la tarea";
         return View();
     }

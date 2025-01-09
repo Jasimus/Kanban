@@ -3,7 +3,6 @@
     int idUsuario = (int)Context.Session.GetInt32("idUsuario");
     string colorAsignado = "#b2fd85";
     string colorEstado = ViewBag.EstadoTareaColor[(int)Model.Estado];
-    string display = "none";
 }
 @using Kanban.Models
 @model Tarea_space.Tarea
@@ -64,6 +63,9 @@
         <p>Estado: <b>@Model.Estado</b></p>
     </div>
 
-    <a asp-action="ModificarTarea" asp-controller="Tareas" class="btn btn-primary">Modificar tarea</a>
+    @if(Model.IdUsuarioAsignado == idUsuario)
+    {
+        <a asp-action="ModificarTarea" asp-controller="Tareas" asp-route-id="@Model.Id" class="btn btn-primary">Cambiar Estado</a>
+    }
 </div>
 

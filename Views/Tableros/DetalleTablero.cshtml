@@ -2,10 +2,16 @@
     ViewData["Title"] = "Detalle de tablero";
     int idUsuario = (int)Context.Session.GetInt32("idUsuario");
     string display = "none";
+    string border = "0px";
+    string borderColorAsignado = "#000";
 }
 @using Kanban.Models
 @model TableroVM_space.TableroVM
 
+@if(Model.Tablero.IdUsuarioPropietario == idUsuario)
+{
+    display = "block";
+}
 
 
 <style>
@@ -35,14 +41,19 @@
     {
         list-style: none;
         padding: 5%;
+        cursor: default;
     }
 
-    li#button
+    li.button
     {
         border-radius: 8px;
         padding: 2%;
         margin-bottom: 8px;
+        box-sizing: border-box;
     }
+
+    .btn-danger
+    {display: @display;}
 </style>
 
 
@@ -60,74 +71,111 @@
     <a asp-action="CrearTarea" asp-controller="Tareas" asp-route-idTablero="@Model.Tablero.Id" class="btn btn-success mb-3">Crear Tarea</a>
 }
 
-<div class="row">
-    <div class="col" id="ventana">
+<div class="row" style="border-collapse: collapse">
+    <div class="col" id="ventana" style="border-right: 0px;">
         <h2 style="background-color: @Model.EstadoTareaColor[1];">Ideas</h2>
+
         <ul id="lista-ventana">
             @foreach(var t in @Model.Ideas)
             {
-                <li class="hover-container" id="button" style="background-color: @t.Color;">
-                    <div class="w-100">
+                if(t.IdUsuarioAsignado == idUsuario) border = "2px";
+                else border = "0px";
+
+                <li class="button" style="background-color: @t.Color; border: @border solid @borderColorAsignado;">
+                    <div class="w-100 pb-2" id="titulo-tarea">
                         <p>@t.Nombre</p>
                     </div>
-                    <div class="w-100 d-inline-block">
-                        <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning" asp-route-id="@t.Id">Detalle</a>
+
+                    <div class="row-dynamic pb-1 row">
+                        <div class="col-dynamic text-center">
+                            <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning btn-dynamic" asp-route-id="@t.Id">Detalle</a>
+                        </div>
+                        <div class="col-dynamic text-center">
+                            <a asp-action="EliminarTarea" asp-controller="Tareas" class="btn btn-danger btn-dynamic" asp-route-id="@t.Id">Eliminar</a>
+                        </div>
                     </div>
-                    <p id="custom-tooltip" class="d-none">@t.Descripcion</p>
+                    <p class="custom-tooltip d-none">@t.Descripcion</p>
                 </li>
             }
         </ul>
     </div>
 
-    <div class="col" id="ventana">
+    <div class="col" id="ventana" style="border-right: 0px;">
         <h2 style="background-color: @Model.EstadoTareaColor[2];">ToDo</h2>
         <ul id="lista-ventana">
             @foreach(var t in @Model.ToDo)
             {
-                <li class="hover-container" id="button" style="background-color: @t.Color;">
-                    <div class="w-100">
+                if(t.IdUsuarioAsignado == idUsuario) border = "2px";
+                else border = "0px";
+
+                <li class="hover-container button" style="background-color: @t.Color; border: @border solid @borderColorAsignado;">
+                    <div class="w-100 pb-2" id="titulo-tarea">
                         <p>@t.Nombre</p>
                     </div>
-                    <div class="w-100">
-                        <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning" asp-route-id="@t.Id">Detalle</a>
+
+                    <div class="row-dynamic pb-1 row">
+                        <div class="col-dynamic text-center">
+                            <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning btn-dynamic" asp-route-id="@t.Id">Detalle</a>
+                        </div>
+                        <div class="col-dynamic text-center">
+                            <a asp-action="EliminarTarea" asp-controller="Tareas" class="btn btn-danger btn-dynamic" asp-route-id="@t.Id">Eliminar</a>
+                        </div>
                     </div>
-                    <p id="custom-tooltip" class="d-none">@t.Descripcion</p>
+                    <p class="custom-tooltip d-none">@t.Descripcion</p>
                 </li>
             }
         </ul>
     </div>
 
-    <div class="col" id="ventana">
+    <div class="col" id="ventana" style="border-right: 0px;">
         <h2 style="background-color: @Model.EstadoTareaColor[3];">Doing</h2>
         <ul id="lista-ventana">
             @foreach(var t in @Model.Doing)
             {
-                <li class="hover-container" id="button" style="background-color: @t.Color;">
-                    <div class="w-100">
+                if(t.IdUsuarioAsignado == idUsuario) border = "2px";
+                else border = "0px";
+
+                <li class="hover-container button" style="background-color: @t.Color; border: @border solid @borderColorAsignado;">
+                    <div class="w-100 pb-2" id="titulo-tarea">
                         <p>@t.Nombre</p>
                     </div>
-                    <div class="w-100">
-                        <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning" asp-route-id="@t.Id">Detalle</a>
+                    
+                   <div class="row-dynamic pb-1 row">
+                        <div class="col-dynamic text-center">
+                            <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning btn-dynamic" asp-route-id="@t.Id">Detalle</a>
+                        </div>
+                        <div class="col-dynamic text-center">
+                            <a asp-action="EliminarTarea" asp-controller="Tareas" class="btn btn-danger btn-dynamic" asp-route-id="@t.Id">Eliminar</a>
+                        </div>
                     </div>
-                    <p id="custom-tooltip" class="d-none">@t.Descripcion</p>
+                    <p class="custom-tooltip d-none">@t.Descripcion</p>
                 </li>
             }
         </ul>
     </div>
 
-    <div class="col" id="ventana">
+    <div class="col" id="ventana" style="border-right: 0px;">
         <h2 style="background-color: @Model.EstadoTareaColor[4];">Reviw</h2>
         <ul id="lista-ventana">
             @foreach(var t in @Model.Review)
             {
-                <li class="hover-container" id="button" style="background-color: @t.Color;">
-                    <div class="w-100">
+                if(t.IdUsuarioAsignado == idUsuario) border = "2px";
+                else border = "0px";
+
+                <li class="hover-container button" style="background-color: @t.Color; border: @border solid @borderColorAsignado;">
+                    <div class="w-100 pb-2" id="titulo-tarea">
                         <p>@t.Nombre</p>
                     </div>
-                    <div class="w-100">
-                        <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning" asp-route-id="@t.Id">Detalle</a>
+
+                    <div class="row-dynamic pb-1 row">
+                        <div class="col-dynamic text-center">
+                            <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning btn-dynamic" asp-route-id="@t.Id">Detalle</a>
+                        </div>
+                        <div class="col-dynamic text-center">
+                            <a asp-action="EliminarTarea" asp-controller="Tareas" class="btn btn-danger btn-dynamic" asp-route-id="@t.Id">Eliminar</a>
+                        </div>
                     </div>
-                    <p id="custom-tooltip" class="d-none">@t.Descripcion</p>
+                    <p class="custom-tooltip d-none">@t.Descripcion</p>
                 </li>
             }
         </ul>
@@ -138,35 +186,40 @@
         <ul id="lista-ventana">
             @foreach(var t in @Model.Done)
             {
-                <li class="hover-container" id="button" style="background-color: @t.Color;">
-                    <div class="w-100">
+                if(t.IdUsuarioAsignado == idUsuario) border = "2px";
+                else border = "0px";
+
+                <li class="hover-container button" style="background-color: @t.Color; border: @border solid @borderColorAsignado;">
+                    <div class="w-100 pb-2" id="titulo-tarea">
                         <p>@t.Nombre</p>
                     </div>
-                    <div class="w-100">
-                        <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning" asp-route-id="@t.Id">Detalle</a>
+
+                    <div class="row-dynamic pb-1 row">
+                        <div class="col-dynamic text-center">
+                            <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning btn-dynamic" asp-route-id="@t.Id">Detalle</a>
+                        </div>
+                        <div class="col-dynamic text-center">
+                            <a asp-action="EliminarTarea" asp-controller="Tareas" class="btn btn-danger btn-dynamic" asp-route-id="@t.Id">Eliminar</a>
+                        </div>
                     </div>
-                    <p id="custom-tooltip" class="d-none">@t.Descripcion</p>
+                    <p class="custom-tooltip d-none">@t.Descripcion</p>
                 </li>
             }
         </ul>
     </div>
 </div>
 
-@if(@Model.Tablero.IdUsuarioPropietario == idUsuario)
-{
-    <a asp-action="EliminarTablero" asp-controller="Tableros" asp-route-id="@Model.Tablero.Id" class="btn btn-danger mt-3">Eliminar tablero</a>
-}
+<a asp-action="EliminarTablero" asp-controller="Tableros" asp-route-id="@Model.Tablero.Id" class="btn btn-danger mt-3 w-10">Eliminar tablero</a>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Inicializar tooltip con un elemento personalizado
-    const button = document.getElementById('button');
-    const customTooltip = document.getElementById('custom-tooltip');
-
+    document.querySelectorAll('.button').forEach((button) => {
+    const tooltip = button.querySelector('.custom-tooltip');
     new bootstrap.Tooltip(button, {
-      customClass: 'my-custom-tooltip', // Clase personalizada
-      html: true, // Permite contenido HTML en el tooltip
-      title: customTooltip.innerHTML, // Contenido del tooltip
+        customClass: 'my-custom-tooltip', // Clase personalizada
+        html: true, // Permite contenido HTML en el tooltip
+        title: tooltip.innerHTML, // Contenido del tooltip
     });
+});
 </script>

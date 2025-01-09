@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Eliminar Tarea";
+}
+@using Kanban.Models
+@model Tarea_space.Tarea
+
+@if(ViewBag.error != null && ViewBag.error != "")
+{
+    <div class="alert alert-warning" role="alert">
+        @ViewBag.error
+    </div>
+}
+
+<h1 class="mb-5">Eliminar Tarea</h1>
+
+<div class="d-flex justify-content-center min-vh-100">
+<form method="post" asp-action="EliminarTareaPost" asp-controller="Tareas">
+    <legend class="text-center">¿Está seguro que desea eliminar la tarea @Model.Nombre?</legend>
+
+    <input type="hidden" value="@Model.Id" asp-for="Id">
+    <input type="hidden" value="@Model.Nombre" asp-for="Nombre">
+    <input type="hidden" value="@Model.Descripcion" asp-for="Descripcion">
+    <input type="hidden" value="@Model.Color" asp-for="Color">
+    <input type="hidden" value="@Model.IdTablero" asp-for="IdTablero">
+    <input type="hidden" value="@Model.IdUsuarioAsignado" asp-for="IdUsuarioAsignado">
+
+    <div class="form-group row">
+        <div class="col text-center">
+            <input type="submit" class="btn btn-danger px-3" value="Si">
+        </div>
+        <div class="col text-center">
+            <a asp-action="DetalleTablero" asp-controller="Tableros" asp-route-id="@Model.IdTablero" class="btn btn-primary">No</a>
+        </div>
+    </div>
+</form>
+</div>

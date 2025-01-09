@@ -16,7 +16,7 @@ public class Tarea
     public string Descripcion { get => descripcion; set => descripcion = value; }
     public string Color { get => color; set => color = value; }
     public int? IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
-    internal EstadoTarea Estado { get => estado; set => estado = value; }
+    public EstadoTarea Estado { get => estado; set => estado = value; }
 
     public Tarea(int id, int idTablero, string nombre, string descripcion, string color, int estado, int? idUsuarioAsignado)
     {
