@@ -1,0 +1,69 @@
+@{
+    ViewData["Title"] = "Detalle de tarea";
+    int idUsuario = (int)Context.Session.GetInt32("idUsuario");
+    string colorAsignado = "#b2fd85";
+    string colorEstado = ViewBag.EstadoTareaColor[(int)Model.Estado];
+    string display = "none";
+}
+@using Kanban.Models
+@model Tarea_space.Tarea
+
+<style>
+    #asignado
+    {
+        padding: 1%;
+        background-color: @colorAsignado;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    #color
+    {
+        background-color: @Model.Color;
+        padding: 2%;
+        border-radius: 10px;
+    }
+
+    #estado
+    {
+        padding: 1%;
+        background-color: @colorEstado;
+        border-radius: 10px;
+    }
+</style>
+
+
+<header class="mb-5">
+    <h1>Tarea: @Model.Nombre</h1>
+</header>
+
+<div>
+    <div class="descripcion mb-3">
+        <h3>Descripción</h3>
+        <p class="m-0">@Model.Descripcion</p>
+    </div>
+
+    <div id="asignado" class="mb-3">
+        @if(ViewBag.usuario != null)
+        {
+            colorAsignado = "#b2fd85";
+            <p>Asignado a:<b> @ViewBag.usuario.Nombre</b></p>
+        }
+        else
+        {
+            colorAsignado = "#fd8585";
+            <p>Tarea no asignada</p>
+        }
+    </div>
+
+    <div id="color" class="text-center mb-3">
+        <p>COLOR</p>
+    </div>
+
+    <div class="mb-3" id="estado">
+        <p>Estado: <b>@Model.Estado</b></p>
+    </div>
+
+    <a asp-action="ModificarTarea" asp-controller="Tareas" class="btn btn-primary">Modificar tarea</a>
+</div>
+

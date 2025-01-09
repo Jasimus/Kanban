@@ -1,4 +1,5 @@
 using TableroRepository_space;
+using Tarea_space;
 using TareaRepository_space;
 using UsuarioRepository_space;
 
@@ -20,6 +21,8 @@ builder.Services.AddSingleton(CadenaDeConexion);
 builder.Services.AddScoped<ITableroRepository, TableroRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ITareaRepository, TareaRepository>();
+
+builder.Services.AddSingleton<IEstadoTareaColor, EstadoTareaColor>();
 
 var app = builder.Build();
 

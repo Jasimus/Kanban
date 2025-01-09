@@ -11,11 +11,13 @@ public class TablerosController : Controller
 {
     readonly ITableroRepository _tableroRepository;
     readonly ITareaRepository _tareaRepository;
+    readonly IEstadoTareaColor _estadoTareaColor;
 
-    public TablerosController(ITableroRepository tableroRepository, ITareaRepository tareaRepository)
+    public TablerosController(ITableroRepository tableroRepository, ITareaRepository tareaRepository, IEstadoTareaColor estadoTareaColor)
     {
         _tableroRepository = tableroRepository;
         _tareaRepository = tareaRepository;
+        _estadoTareaColor = estadoTareaColor;
     }
 
     [HttpGet]
@@ -69,13 +71,13 @@ public class TablerosController : Controller
     {
         var tablero = _tableroRepository.DetallesTablero(id);
         var tableroVM = new TableroVM{
+            EstadoTareaColor = _estadoTareaColor.ObtenerDiccionario(),
             Tablero = tablero,
             Ideas = _tareaRepository.ListarTareasDeTablero(id).Where(t => t.Estado == EstadoTarea.Ideas).ToList(),
             ToDo = _tareaRepository.ListarTareasDeTablero(id).Where(t => t.Estado == EstadoTarea.ToDo).ToList(),
             Doing = _tareaRepository.ListarTareasDeTablero(id).Where(t => t.Estado == EstadoTarea.Doing).ToList(),
             Review = _tareaRepository.ListarTareasDeTablero(id).Where(t => t.Estado == EstadoTarea.Review).ToList(),
             Done = _tareaRepository.ListarTareasDeTablero(id).Where(t => t.Estado == EstadoTarea.Done).ToList()
-
         };
 
         return View(tableroVM);
@@ -93,8 +95,8 @@ public class TablerosController : Controller
     {
         int cant = _tableroRepository.EliminarTablero(tablero.Id);
         if (ModelState.IsValid && cant != 0)
-        return RedirectToAction("ListarTableros", "Tableros");
+        return RedirectToAction("Index", "Usuarios");
         ViewBag.error = "no se pudo eliminar el tablero";
-        return View();
+        return View(tablero);
     }
 }

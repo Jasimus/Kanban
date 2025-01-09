@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = "Detalle de tablero";
+    int idUsuario = (int)Context.Session.GetInt32("idUsuario");
     string display = "none";
 }
 @using Kanban.Models
@@ -13,15 +14,7 @@
         background-color: rgb(156, 156, 156);    
     }
 
-    #mostrar-hover
-    {
-        display: none;
-        position: absolute;
-        transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, 0.8);
-        color:white;
-        padding: 0.5vw;
-    }
+    
 
     .hover-container:hover #mostrar-hover
     {
@@ -33,35 +26,26 @@
         position: relative;
         overflow: visible;
     }
-
-    .desplegable
-    {
-        max-height: 43px;
-        width: auto;
-        background-color: rgb(255, 229, 146);
-        transition: max-height 0.5s ease;
-        overflow: hidden;
-    }
-
-    .desplegable:hover
-    {
-        max-height: 500px;
-    }
 </style>
 
 
 <header class="mb-5">
-        <h1>Tablero: @Model.Tablero.Nombre</h1>
-    </header>
+    <h1>Tablero: @Model.Tablero.Nombre</h1>
+</header>
 
-<div class="desplegable mb-3 px-1 pt-1">
+<div class="descripcion mb-3 p-2">
     <h3>Descripción</h3>
     <p>@Model.Tablero.Descripcion</p>
 </div>
 
+@if(@Model.Tablero.IdUsuarioPropietario == idUsuario)
+{
+    <a asp-action="CrearTarea" asp-controller="Tareas" asp-route-idTablero="@Model.Tablero.Id" class="btn btn-success mb-3">Crear Tarea</a>
+}
+
 <div class="row">
     <div class="col" id="ventana">
-        <h2>Ideas</h2>
+        <h2 style="background-color: @Model.EstadoTareaColor[1];">Ideas</h2>
         <ul>
             @foreach(var t in @Model.Ideas)
             {
@@ -79,7 +63,7 @@
     </div>
 
     <div class="col" id="ventana">
-        <h2>ToDo</h2>
+        <h2 style="background-color: @Model.EstadoTareaColor[2];">ToDo</h2>
         <ul>
             @foreach(var t in @Model.ToDo)
             {
@@ -97,7 +81,7 @@
     </div>
 
     <div class="col" id="ventana">
-        <h2>Doing</h2>
+        <h2 style="background-color: @Model.EstadoTareaColor[3];">Doing</h2>
         <ul>
             @foreach(var t in @Model.Doing)
             {
@@ -115,7 +99,7 @@
     </div>
 
     <div class="col" id="ventana">
-        <h2>Reviw</h2>
+        <h2 style="background-color: @Model.EstadoTareaColor[4];">Reviw</h2>
         <ul>
             @foreach(var t in @Model.Review)
             {
@@ -133,7 +117,7 @@
     </div>
 
     <div class="col" id="ventana">
-        <h2>Done</h2>
+        <h2 style="background-color: @Model.EstadoTareaColor[5];">Done</h2>
         <ul>
             @foreach(var t in @Model.Done)
             {
@@ -150,3 +134,8 @@
         </ul>
     </div>
 </div>
+
+@if(@Model.Tablero.IdUsuarioPropietario == idUsuario)
+{
+    <a asp-action="EliminarTablero" asp-controller="Tableros" asp-route-id="@Model.Tablero.Id" class="btn btn-danger mt-3">Eliminar tablero</a>
+}

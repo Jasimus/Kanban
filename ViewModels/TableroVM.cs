@@ -5,6 +5,7 @@ using Tarea_space;
 
 public class TableroVM
 {
+    public Dictionary<int, string> EstadoTareaColor { get; set; }
     public List<Tarea> Ideas { get; set; }
     public List<Tarea> ToDo { get; set; }
     public List<Tarea> Doing { get; set; }

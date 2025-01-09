@@ -28,6 +28,8 @@ public class Tarea
         this.estado = (EstadoTarea)estado;
         this.idUsuarioAsignado = idUsuarioAsignado;
     }
+
+    public Tarea(){}
 }
 
 enum EstadoTarea
@@ -37,4 +39,28 @@ enum EstadoTarea
     Doing = 3,
     Review = 4,
     Done = 5
+}
+
+public interface IEstadoTareaColor
+{
+    public Dictionary<int, string> ObtenerDiccionario();
+}
+
+public class EstadoTareaColor : IEstadoTareaColor
+{
+    public Dictionary<int, string> _diccionario;
+
+    public EstadoTareaColor()
+    {
+        _diccionario = new Dictionary<int, string>
+        {
+            {1, "#82f0f5"},
+            {2, "#5d78df"},
+            {3, "#b6df5d"},
+            {4, "#df5dbf"},
+            {5, "#5dbfdf"}
+        };
+    }
+
+    public Dictionary<int, string> ObtenerDiccionario() => _diccionario;
 }

@@ -154,13 +154,10 @@ public class TableroRepository : ITableroRepository
         {
             connection.Open();
                 
-            string query = "DELETE FROM Tablero WHERE id = @id;";
             string query1 = "SELECT * FROM Tarea WHERE id_tablero = @id;";
 
-            SqliteCommand command = new SqliteCommand(query, connection);
             SqliteCommand command1 = new SqliteCommand(query1, connection);
 
-            command.Parameters.AddWithValue("@id", id);
             command1.Parameters.AddWithValue("@id", id);
             
             using(var reader = command1.ExecuteReader())
@@ -170,6 +167,9 @@ public class TableroRepository : ITableroRepository
 
             if(cant1 == 0)
             {
+                string query = "DELETE FROM Tablero WHERE id = @id;";
+                SqliteCommand command = new SqliteCommand(query, connection);
+                command.Parameters.AddWithValue("@id", id);
                 cant = command.ExecuteNonQuery();
             }
 

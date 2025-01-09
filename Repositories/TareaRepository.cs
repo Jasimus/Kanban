@@ -35,7 +35,7 @@ public class TareaRepository : ITareaRepository
             SqliteCommand command = new SqliteCommand(query, connection);
             command.Parameters.AddWithValue("@id_tablero", id);
             command.Parameters.AddWithValue("@nombre", tarea.Nombre);
-            command.Parameters.AddWithValue("@estado", tarea.Estado);
+            command.Parameters.AddWithValue("@estado", (int)tarea.Estado);
             command.Parameters.AddWithValue("@descripcion", tarea.Descripcion);
             command.Parameters.AddWithValue("@color", tarea.Color);
             command.Parameters.AddWithValue("@id_usuario_asignado", tarea.IdUsuarioAsignado);
