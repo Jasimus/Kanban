@@ -52,7 +52,7 @@ public class TareasController : Controller
     {
         int cant = _tareaRepository.CrearTarea(tarea.IdTablero, tarea);
         if (ModelState.IsValid && cant != 0)
-        return RedirectToAction("DetalleTablero", new {id = tarea.IdTablero});
+        return RedirectToAction("DetalleTablero", "Tableros", new {id = tarea.IdTablero});
         ViewBag.error = "no se pudo crear la tarea";
         ViewBag.idTablero = tarea.IdTablero;
         return View();

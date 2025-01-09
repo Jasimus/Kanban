@@ -32,7 +32,7 @@ public class Tarea
     public Tarea(){}
 }
 
-enum EstadoTarea
+public enum EstadoTarea
 {
     Ideas = 1,
     ToDo = 2,

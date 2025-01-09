@@ -30,14 +30,14 @@ body {
     padding: 1%;
 }
 
-#mostrar-hover
+my-custom-tooltip
 {
-    display: none;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.8);
-    color:white;
-    padding: 0.5vw;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  color: white !important;
+  border-radius: 5px !important;
+  font-size: 12px;
+  text-align: center;
+  padding: 0.5% !important;
 }
 
 p
