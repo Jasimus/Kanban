@@ -10,7 +10,8 @@ public interface ITableroRepository
     public int ModificarTablero(int id, Tablero tablero);
     public Tablero DetallesTablero(int id);
     public List<Tablero> ListarTableros();
-    public List<Tablero> ListarTablerosDeUsuario(int id);
+    public List<Tablero> ListarTablerosDeUsuario(int? id);
+    public List<Tablero> ListarTablerosDeOtros(int? id);
     public int EliminarTablero(int id);
 
 }
@@ -120,7 +121,7 @@ public class TableroRepository : ITableroRepository
         return tableros;
     }
 
-    public List<Tablero> ListarTablerosDeUsuario(int id)
+    public List<Tablero> ListarTablerosDeUsuario(int? id)
     {
         List<Tablero> tableros = new List<Tablero>();
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
@@ -128,6 +129,33 @@ public class TableroRepository : ITableroRepository
             connection.Open();
                 
             string query = "SELECT * FROM Tablero WHERE id_usuario_propietario = @id_usuario;";
+
+            SqliteCommand command = new SqliteCommand(query, connection);
+            command.Parameters.AddWithValue("@id_usuario", id);
+            
+            using (var reader = command.ExecuteReader())
+            {
+                while(reader.Read())
+                {
+                    var tablero = new Tablero(Convert.ToInt32(reader["id"]), Convert.ToInt32(reader["id_usuario_propietario"]), reader["nombre"].ToString(), reader["descripcion"].ToString());
+
+                    tableros.Add(tablero);
+                }
+            }
+            connection.Close();
+        }
+
+        return tableros;
+    }
+
+    public List<Tablero> ListarTablerosDeOtros(int? id)
+    {
+        List<Tablero> tableros = new List<Tablero>();
+        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
+        {
+            connection.Open();
+                
+            string query = "SELECT * FROM Tablero WHERE id_usuario_propietario != @id_usuario;";
 
             SqliteCommand command = new SqliteCommand(query, connection);
             command.Parameters.AddWithValue("@id_usuario", id);

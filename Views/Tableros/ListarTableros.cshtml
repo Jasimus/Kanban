@@ -1,0 +1,64 @@
+@{
+    ViewData["Title"] = "Lista de tableros";
+    int? idUsuario = Context.Session.GetInt32("idUsuario");
+    string display = "none";
+}
+@using Kanban.Models
+@model List<TableroVM_space.TableroVM>
+
+<header class="mb-5">
+    <h1>Tableros</h1>
+</header>
+
+<style>
+    .estado
+    {
+        border-radius: 5px;
+        padding: 3px;
+    }
+
+    #boton-tablero
+    {
+        
+    }    
+</style>
+
+<div>
+    @foreach(var t in Model)
+    {
+        @if(t.Tablero.IdUsuarioPropietario == idUsuario) display = "block";
+        else display = "none";
+        <div>
+            <p>@t.Tablero.Nombre</p>
+            <div class="mt-2 row row-dynamic">
+                <div class="col-dynamic row">
+                    <div class="col text-center">
+                        <p class="estado" style="background-color: @ViewBag.EstadoTareaColor[1];">Ideas: @t.Ideas.Count</p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="estado" style="background-color: @ViewBag.EstadoTareaColor[2];">ToDo: @t.ToDo.Count</p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="estado" style="background-color: @ViewBag.EstadoTareaColor[3];">Doing: @t.Doing.Count</p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="estado" style="background-color: @ViewBag.EstadoTareaColor[4];">Review: @t.Review.Count</p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="estado" style="background-color: @ViewBag.EstadoTareaColor[5];">Done: @t.Done.Count</p>
+                    </div>
+                </div>
+                <div class="row col-dynamic text-right">
+                    <div class="col-4"></div>
+                    <div class="text-center col-4" id="boton-tablero">
+                        <a asp-action="DetalleTablero" asp-controller="Tableros" class="btn btn-primary btn-dynamic" asp-route-id="@t.Tablero.Id">Detalle</a>
+                    </div>
+
+                    <div class="text-center col-4" id="boton-tablero">
+                        <a asp-action="EliminarTablero" asp-controller="Tableros" class="btn btn-danger btn-dynamic d-@display" asp-route-id="@t.Tablero.Id">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

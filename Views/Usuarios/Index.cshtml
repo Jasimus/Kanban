@@ -18,19 +18,39 @@
     {
         overflow: auto;
         border: 2px solid black;
-        background-color: rgb(156, 156, 156);    
+        background-color: rgb(204, 204, 204);    
     }
 
-    ul
+    ul#lista-ventana
     {
         list-style: none;
-        padding: 0;
-        margin: 0;
+        padding: 5%;
+        cursor: default;
     }
 
     li#tablero
     {
         background-color: aquamarine;
+        margin: 0;
+    }
+
+    .hover-container
+    {
+        position: relative;
+        overflow: visible;
+    }
+
+    li.button
+    {
+        border-radius: 8px;
+        padding: 2%;
+        margin-bottom: 8px;
+        box-sizing: border-box;
+    }
+
+    .borde
+    {
+        border: 1px solid black;
     }
 </style>
 
@@ -40,33 +60,39 @@
     </header>
 
     <div class="row w-100">
-        <div  id="ventana" class="col">
+        <div  id="ventana" class="col" style="border-right: 0;">
             <h2>Tareas</h2>
-            <ul>
+            <ul id="lista-ventana">
                 @foreach(var t in @Model.Tareas)
                 {
-                    <li>
-                        <div class="w-100">
-                            <p>@t.Nombre</p>
-                            <a asp-action="DetalleTablero" asp-controller="Tableros" asp-route-id="@t.IdTablero" class="btn btn-primary">Tablero</a>
+                    <li class="hover-container button" style="background-color: @t.Color;">
+                    <div class="w-100 pb-2" id="titulo-tarea">
+                        <p>@t.Nombre</p>
+                    </div>
+
+                    <div class="row-dynamic pb-1 row">
+                        <div class="col-dynamic text-center">
+                            <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning btn-dynamic" asp-route-id="@t.Id">Detalle</a>
                         </div>
-                        <div class="w-100">
-                            <a asp-action="DetalleTarea" asp-controller="Tareas" class="btn btn-warning" asp-route-id="@t.Id">Detalle</a>
+                        <div class="col-dynamic text-center">
+                            <a asp-action="DetalleTablero" asp-controller="Tableros" class="btn btn-primary btn-dynamic" asp-route-id="@t.IdTablero">Tablero</a>
                         </div>
-                    </li>
+                    </div>
+                    <p class="custom-tooltip d-none">@t.Descripcion</p>
+                </li>
                 }
             </ul>
         </div>
 
-        <div  id="ventana" class="col">
+        <div  id="ventana" class="col" style="border-right: 0;">
             <h2>Tableros</h2>
             <a asp-action="CrearTablero" asp-controller="Tableros" class="btn btn-primary">Crear</a>
-            <ul>
+            <ul id="lista-ventana" class="pt-0">
                 @foreach(var t in @Model.Tableros)
                 {
-                    <li class="w-100 my-3 row" id="tablero">
-                        <p class="col-9">@t.Nombre</p>
-                        <a asp-action="DetalleTablero" asp-controller="Tableros" asp-route-id="@t.Id" class="col-3 btn btn-primary">Detalles</a>
+                    <li class="button my-3 row-dynamic row" id="tablero">
+                        <p class="col-dynamic">@t.Nombre</p>
+                        <a asp-action="DetalleTablero" asp-controller="Tableros" asp-route-id="@t.Id" class="col-dynamic btn btn-primary">Detalles</a>
                     </li>
                 }
             </ul>
@@ -74,10 +100,9 @@
 
         <div  id="ventana" class="col">
             <h2>Usuarios</h2>
-            <a asp-action="ListarUsuarios" asp-controller="Usuarios" class="d-@display">Detalles</a>
-            <table class="table table-bordered">
+            <a asp-action="ListarUsuarios" asp-controller="Usuarios" class="d-@display btn btn-primary mb-3">Detalles</a>
+            <table class="table table-bordered borde">
                 <tr>
-                    <th scope="col">Id</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Rol</th>
                 </tr>
@@ -85,7 +110,6 @@
                 @foreach(Usuario_space.Usuario u in @Model.Usuarios)
                 {
                     <tr>
-                        <td scope="col">@u.Id</td>
                         <td scope="col">@u.Nombre</td>
                         <td scope="col">@u.RolUsuario</td>
                     </tr>

@@ -29,8 +29,37 @@ public class TablerosController : Controller
     [HttpGet]
     public IActionResult ListarTableros()
     {
-        var tableros = _tableroRepository.ListarTableros();
-        return View(tableros);
+        int? idUsuario = HttpContext.Session.GetInt32("idUsuario");
+        var tablerosU = _tableroRepository.ListarTablerosDeUsuario(idUsuario);
+        var tablerosO = _tableroRepository.ListarTablerosDeOtros(idUsuario);
+        var EstadoTareaColor = _estadoTareaColor.ObtenerDiccionario();
+
+        foreach(Tarea t in _tareaRepository.ListarTareasDeUsuario(idUsuario))
+        {
+            foreach(Tablero tab in tablerosO)
+            {
+                if(t.IdTablero == tab.Id) tablerosU.Add(tab);
+            }
+        }
+
+        List<TableroVM> tablerosVM = new List<TableroVM>();
+
+        foreach(Tablero tab in tablerosU)
+        {
+            var tableroVM = new TableroVM{
+                Tablero = tab,
+                Ideas = _tareaRepository.ListarTareasDeTablero(tab.Id).Where(t => t.Estado == EstadoTarea.Ideas).ToList(),
+                ToDo = _tareaRepository.ListarTareasDeTablero(tab.Id).Where(t => t.Estado == EstadoTarea.ToDo).ToList(),
+                Doing = _tareaRepository.ListarTareasDeTablero(tab.Id).Where(t => t.Estado == EstadoTarea.Doing).ToList(),
+                Review = _tareaRepository.ListarTareasDeTablero(tab.Id).Where(t => t.Estado == EstadoTarea.Review).ToList(),
+                Done = _tareaRepository.ListarTareasDeTablero(tab.Id).Where(t => t.Estado == EstadoTarea.Done).ToList()
+            };
+            tablerosVM.Add(tableroVM);
+        }
+
+        ViewBag.EstadoTareaColor = EstadoTareaColor;
+
+        return View(tablerosVM);
     }
 
     [HttpGet]

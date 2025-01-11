@@ -71,11 +71,22 @@ p
   padding-left: 1%;
 }
 
+#boton-tablero
+{
+  width: 100%;
+  text-align: right; 
+}
+
 /* En pantallas pequeñas (por debajo de 576px) */
 @media (max-width: 575px) {
   .btn-dynamic {
       font-size: 12px;
       padding: 3% 2%;
+  }
+
+  p.col-dynamic
+  {
+    text-align: center;
   }
 }
 
@@ -85,6 +96,11 @@ p
       font-size: 14px;
       padding: 5px 9px;
   }
+
+  p.col-dynamic
+  {
+    text-align: center;
+  }
 }
 
 /* En pantallas grandes (de 768px a 991px) */
@@ -92,6 +108,12 @@ p
   .btn-dynamic {
       font-size: 15px;
       padding: 5px 9px;
+  }
+
+  
+  p.col-dynamic
+  {
+    text-align: center;
   }
 }
 
@@ -111,6 +133,11 @@ p
   {
     text-align: left;
   }
+
+  #boton-tablero
+  {
+    width: 33%;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -127,5 +154,10 @@ p
   #titulo-tarea
   {
     text-align: left;
+  }
+
+  #boton-tablero
+  {
+    width: 33%;
   }
 }
