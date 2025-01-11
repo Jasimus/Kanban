@@ -10,12 +10,14 @@ public class TareasController : Controller
     readonly ITareaRepository _tareaRepository;
     readonly IUsuarioRepository _usuarioRepository;
     readonly IEstadoTareaColor _estadoTareaColor;
+    readonly ILogger<TareasController> _logger;
 
-    public TareasController(ITareaRepository tareaRepository, IUsuarioRepository usuarioRepository, IEstadoTareaColor estadoTareaColor)
+    public TareasController(ITareaRepository tareaRepository, IUsuarioRepository usuarioRepository, IEstadoTareaColor estadoTareaColor, ILogger<TareasController> logger)
     {
         _tareaRepository = tareaRepository;
         _usuarioRepository = usuarioRepository;
         _estadoTareaColor = estadoTareaColor;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -27,16 +29,32 @@ public class TareasController : Controller
     [HttpGet]
     public IActionResult ListarTareaDeTablero(int id)
     {
-        var tareas = _tareaRepository.ListarTareasDeTablero(id);
-        return View(tareas);
+        try
+        {
+            var tareas = _tareaRepository.ListarTareasDeTablero(id);
+            return View(tareas);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
     }
 
     [HttpGet]
     public IActionResult ListarTareaDeUsuario()
     {
-        int? id = HttpContext.Session.GetInt32("idUsuario");
-        var tareas = _tareaRepository.ListarTareasDeUsuario(id);
-        return View(tareas);
+        try
+        {
+            int? id = HttpContext.Session.GetInt32("idUsuario");
+            var tareas = _tareaRepository.ListarTareasDeUsuario(id);
+            return View(tareas);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
     }
 
     [HttpGet]
@@ -50,13 +68,23 @@ public class TareasController : Controller
     [HttpPost]
     public IActionResult CrearTarea(Tarea tarea)
     {
-        Console.WriteLine((int)tarea.Estado);
-        int cant = _tareaRepository.CrearTarea(tarea.IdTablero, tarea);
-        if (ModelState.IsValid && cant != 0)
-        return RedirectToAction("DetalleTablero", "Tableros", new {id = tarea.IdTablero});
-        ViewBag.error = "no se pudo crear la tarea";
-        ViewBag.idTablero = tarea.IdTablero;
-        return View();
+        try
+        {
+            Console.WriteLine((int)tarea.Estado);
+            _tareaRepository.CrearTarea(tarea.IdTablero, tarea);
+            if (ModelState.IsValid)
+            return RedirectToAction("DetalleTablero", "Tableros", new {id = tarea.IdTablero});
+            ViewBag.error = "no se pudo crear la tarea";
+            ViewBag.idTablero = tarea.IdTablero;
+            return View();
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            ViewBag.error = "no se pudo crear la tarea";
+            ViewBag.idTablero = tarea.IdTablero;
+            return View();
+        }
     }
 
     [HttpGet]
@@ -69,20 +97,38 @@ public class TareasController : Controller
     [HttpPost]
     public IActionResult ModificarTarea(int idTablero, Tarea tarea)
     {
-        int cant = _tareaRepository.ModificarTarea(tarea.Id, tarea);
-        if (ModelState.IsValid && cant != 0)
-        return RedirectToAction("DetalleTablero", "Tableros", new {id = idTablero});
-        ViewBag.error = "no se pudo modificar la tarea";
-        return View();
+        try
+        {
+            _tareaRepository.ModificarTarea(tarea.Id, tarea);
+            if (ModelState.IsValid)
+            return RedirectToAction("DetalleTablero", "Tableros", new {id = idTablero});
+            ViewBag.error = "no se pudo modificar la tarea";
+            return View();
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            ViewBag.error = "no se pudo modificar la tarea";
+            return View();
+        }
+        
     }
 
     [HttpGet]
     public IActionResult DetalleTarea(int id)
     {
-        Tarea tarea = _tareaRepository.DetallesTarea(id);
-        ViewBag.usuario = _usuarioRepository.ListarUsuarios().FirstOrDefault(u => u.Id == tarea.IdUsuarioAsignado);
-        ViewBag.EstadoTareaColor = _estadoTareaColor.ObtenerDiccionario();
-        return View(tarea);
+        try
+        {
+            Tarea tarea = _tareaRepository.DetallesTarea(id);
+            ViewBag.usuario = _usuarioRepository.ListarUsuarios().FirstOrDefault(u => u.Id == tarea.IdUsuarioAsignado);
+            ViewBag.EstadoTareaColor = _estadoTareaColor.ObtenerDiccionario();
+            return View(tarea);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
     }
 
     [HttpGet]
@@ -97,10 +143,19 @@ public class TareasController : Controller
     [Route("Tareas/EliminarTareaPost")]
     public IActionResult EliminarTarea(Tarea tarea)
     {
-        int cant = _tareaRepository.EliminarTarea(tarea.Id);
-        if (ModelState.IsValid && cant != 0)
-        return RedirectToAction("DetalleTablero", "Tableros", new {id = tarea.IdTablero});
-        ViewBag.error = "no se pudo eliminar la tarea";
-        return View();
+        try
+        {
+            _tareaRepository.EliminarTarea(tarea.Id);
+            if (ModelState.IsValid)
+            return RedirectToAction("DetalleTablero", "Tableros", new {id = tarea.IdTablero});
+            ViewBag.error = "no se pudo eliminar la tarea";
+            return View();
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            ViewBag.error = "no se pudo eliminar la tarea";
+            return View();
+        }
     }
 }

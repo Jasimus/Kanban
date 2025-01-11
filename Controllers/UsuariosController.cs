@@ -3,8 +3,6 @@ namespace UsuarioController_space;
 using Microsoft.AspNetCore.Mvc;
 using Usuario_space;
 using UsuarioRepository_space;
-using Tablero_space;
-using Tarea_space;
 using TableroRepository_space;
 using TareaRepository_space;
 using IndexVM_space;
@@ -14,12 +12,14 @@ public class UsuariosController : Controller
     readonly IUsuarioRepository _usuarioRepository;
     readonly ITableroRepository _tableroRepository;
     readonly ITareaRepository _tareaRepository;
+    readonly ILogger<UsuariosController> _logger;
 
-    public UsuariosController(IUsuarioRepository usuarioRepository, ITableroRepository tableroRepository, ITareaRepository tareaRepository)
+    public UsuariosController(IUsuarioRepository usuarioRepository, ITableroRepository tableroRepository, ITareaRepository tareaRepository, ILogger<UsuariosController> logger)
     {
         _usuarioRepository = usuarioRepository;
         _tableroRepository = tableroRepository;
         _tareaRepository = tareaRepository;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -39,7 +39,15 @@ public class UsuariosController : Controller
     [HttpGet]
     public IActionResult ListarUsuarios()
     {
-        return View(_usuarioRepository.ListarUsuarios());
+        try
+        {
+            return View(_usuarioRepository.ListarUsuarios());
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
     }
 
     [HttpGet]
@@ -51,11 +59,20 @@ public class UsuariosController : Controller
     [HttpPost]
     public IActionResult CrearUsuario(Usuario usuario)
     {
-        int cant = _usuarioRepository.CrearUsuario(usuario);
-        if (ModelState.IsValid && cant != 0)
-        return RedirectToAction("ListarUsuarios", "Usuarios");
-        ViewBag.error = "no se pudo crear el usuario";
-        return View();
+        try
+        {
+            _usuarioRepository.CrearUsuario(usuario);
+            if (ModelState.IsValid)
+            return RedirectToAction("ListarUsuarios", "Usuarios");
+            ViewBag.error = "no se pudo crear el usuario";
+            return View();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            ViewBag.error = "no se pudo crear el usuario";
+            return View();
+        }
     }
 
     [HttpGet]
@@ -68,11 +85,20 @@ public class UsuariosController : Controller
     [HttpPost]
     public IActionResult ModificarUsuario(Usuario usuario)
     {
-        int cant = _usuarioRepository.ModificarUsuario(usuario.Id, usuario);
-        if (ModelState.IsValid && cant != 0)
-        return RedirectToAction("ListarUsuarios", "Usuarios");
-        ViewBag.error = "no se pudo modificar el usuario";
-        return View();
+        try
+        {
+            _usuarioRepository.ModificarUsuario(usuario.Id, usuario);
+            if (ModelState.IsValid)
+            return RedirectToAction("ListarUsuarios", "Usuarios");
+            ViewBag.error = "no se pudo modificar el usuario";
+            return View();
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            ViewBag.error = "no se pudo modificar el usuario";
+            return View();
+        }
     }
 
     [HttpGet]
@@ -85,11 +111,20 @@ public class UsuariosController : Controller
     [HttpPost]
     public IActionResult EliminarUsuario(Usuario usuario)
     {
-        int cant = _usuarioRepository.EliminarUsuario(usuario.Id);
-        if (ModelState.IsValid && cant != 0)
-        return RedirectToAction("ListarUsuarios", "Usuarios");
-        ViewBag.error = "no se pudo eliminar el usuario";
-        return View();
+        try
+        {
+            _usuarioRepository.EliminarUsuario(usuario.Id);
+            if (ModelState.IsValid)
+            return RedirectToAction("ListarUsuarios", "Usuarios");
+            ViewBag.error = "no se pudo eliminar el usuario";
+            return View();
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            ViewBag.error = "no se pudo eliminar el usuario";
+            return View();
+        }
     }
 
     [HttpGet]
@@ -106,8 +141,9 @@ public class UsuariosController : Controller
             Usuario Uusuario = _usuarioRepository.ListarUsuarios().Single(u => u.Nombre == usuario);
             return RedirectToAction("CambiarPassword", "Usuarios", new {id = Uusuario.Id});
         }
-        catch(InvalidOperationException)
+        catch(InvalidOperationException ex)
         {
+            _logger.LogError(ex.ToString());
             ViewBag.error = "el usuario no existe o coincide con otro usuario";
             return View();
         }
@@ -125,10 +161,19 @@ public class UsuariosController : Controller
     [Route("Usuarios/CambiarPasswordPost")]
     public IActionResult CambiarPassword(int id, string password)
     {
-        int cant = _usuarioRepository.CambiarPassword(id, password);
-        if (ModelState.IsValid && cant != 0)
-        return RedirectToAction("Login", "Logueo");
-        ViewBag.error = "no se pudo cambiar la contraseña";
-        return View();
+        try
+        {
+            _usuarioRepository.CambiarPassword(id, password);
+            if (ModelState.IsValid)
+            return RedirectToAction("Login", "Logueo");
+            ViewBag.error = "no se pudo cambiar la contraseña";
+            return View();
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            ViewBag.error = "no se pudo cambiar la contraseña";
+            return View();
+        }
     }
 }

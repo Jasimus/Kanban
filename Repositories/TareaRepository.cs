@@ -4,13 +4,12 @@ using Tarea_space;
 
 public interface ITareaRepository
 {
-    public int CrearTarea(int id, Tarea tarea);
-    public int ModificarTarea(int id, Tarea tarea);
+    public void CrearTarea(int id, Tarea tarea);
+    public void ModificarTarea(int id, Tarea tarea);
     public Tarea DetallesTarea(int id);
     public List<Tarea> ListarTareasDeUsuario(int? id);
     public List<Tarea> ListarTareasDeTablero(int id);
-    public int EliminarTarea(int id);
-    public int AsignarTarea(int idTarea, int idUsuario);
+    public void EliminarTarea(int id);
 }
 
 
@@ -23,7 +22,7 @@ public class TareaRepository : ITareaRepository
         _ConnectionString = ConnectionString;
     }
 
-    public int CrearTarea(int id, Tarea tarea)
+    public void CrearTarea(int id, Tarea tarea)
     {
         int cant = 0;
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
@@ -44,10 +43,11 @@ public class TareaRepository : ITareaRepository
 
             connection.Close();
         }
-        return cant;
+        if(cant == 0)
+            throw new Exception("No se creó la tarea");
     }
 
-    public int ModificarTarea(int id, Tarea tarea)
+    public void ModificarTarea(int id, Tarea tarea)
     {
         int cant = 0;
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
@@ -70,7 +70,8 @@ public class TareaRepository : ITareaRepository
             connection.Close();
         }
 
-        return cant;
+        if(cant == 0)
+            throw new Exception("No se modificó la tarea");
     }
 
     public Tarea DetallesTarea(int id)
@@ -152,7 +153,7 @@ public class TareaRepository : ITareaRepository
         return tareas;
     }
 
-    public int EliminarTarea(int id)
+    public void EliminarTarea(int id)
     {
         int cant = 0;
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
@@ -169,27 +170,7 @@ public class TareaRepository : ITareaRepository
             connection.Close();
         }
 
-        return cant;
-    }
-
-    public int AsignarTarea(int idTarea, int idUsuario)
-    {
-        int cant = 0;
-        using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
-        {
-            connection.Open();
-                
-            string query = "UPDATE Tarea SET id_usuario_asignado = @id_usuario WHERE id = @id;";
-
-            SqliteCommand command = new SqliteCommand(query, connection);
-            command.Parameters.AddWithValue("@id", idTarea);
-            command.Parameters.AddWithValue("@id_usuario", idUsuario);
-            
-            cant = command.ExecuteNonQuery();
-
-            connection.Close();
-        }
-
-        return cant;
+        if(cant == 0)
+            throw new Exception("No se modificó la tarea");
     }
 }

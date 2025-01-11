@@ -4,12 +4,12 @@ using Usuario_space;
 
 public interface IUsuarioRepository
 {
-    public int CrearUsuario(Usuario usuario);
-    public int ModificarUsuario(int id, Usuario usuario);
+    public void CrearUsuario(Usuario usuario);
+    public void ModificarUsuario(int id, Usuario usuario);
     public List<Usuario> ListarUsuarios();
     public Usuario DetallesUsuario(int id);
-    public int EliminarUsuario(int id);
-    public int CambiarPassword(int id, string password);
+    public void EliminarUsuario(int id);
+    public void CambiarPassword(int id, string password);
 }
 
 public class UsuarioRepository : IUsuarioRepository
@@ -21,7 +21,7 @@ public class UsuarioRepository : IUsuarioRepository
         _ConnectionString = ConnectionString;
     }
 
-    public int CrearUsuario(Usuario usuario)
+    public void CrearUsuario(Usuario usuario)
     {
         int cant = 0;
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
@@ -39,10 +39,12 @@ public class UsuarioRepository : IUsuarioRepository
 
             connection.Close();
         }
-        return cant;
+        
+        if(cant == 0)
+            throw new Exception("No se creó el usuario");
     }
 
-    public int ModificarUsuario(int id, Usuario usuario)
+    public void ModificarUsuario(int id, Usuario usuario)
     {
         int cant = 0;
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
@@ -62,7 +64,8 @@ public class UsuarioRepository : IUsuarioRepository
             connection.Close();
         }
 
-        return cant;
+        if(cant == 0)
+            throw new Exception("No se modificó el usuario");
     }
 
     public List<Usuario> ListarUsuarios()
@@ -87,6 +90,9 @@ public class UsuarioRepository : IUsuarioRepository
             }
             connection.Close();
         }
+
+        if(usuarios.Count == 0)
+            throw new Exception("No hay usuarios");
 
         return usuarios;
     }
@@ -114,10 +120,13 @@ public class UsuarioRepository : IUsuarioRepository
             connection.Close();
         }
 
+        if(usuario == null)
+            throw new Exception("Usuario no encontrado");
+
         return usuario;
     }
 
-    public int EliminarUsuario(int id)
+    public void EliminarUsuario(int id)
     {
         int cant = 0;
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
@@ -134,10 +143,11 @@ public class UsuarioRepository : IUsuarioRepository
             connection.Close();
         }
 
-        return cant;
+        if(cant == 0)
+            throw new Exception("No se eliminó el usuario");
     }
 
-    public int CambiarPassword(int id, string password)
+    public void CambiarPassword(int id, string password)
     {
         int cant = 0;
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
@@ -154,6 +164,7 @@ public class UsuarioRepository : IUsuarioRepository
             connection.Close();
         }
 
-        return cant;
+        if(cant == 0)
+            throw new Exception("No se cambió el password");
     }
 }

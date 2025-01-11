@@ -6,13 +6,13 @@ using Tablero_space;
 
 public interface ITableroRepository
 {
-    public int CrearTablero(Tablero tablero);
-    public int ModificarTablero(int id, Tablero tablero);
+    public void CrearTablero(Tablero tablero);
+    public void ModificarTablero(int id, Tablero tablero);
     public Tablero DetallesTablero(int id);
     public List<Tablero> ListarTableros();
     public List<Tablero> ListarTablerosDeUsuario(int? id);
     public List<Tablero> ListarTablerosDeOtros(int? id);
-    public int EliminarTablero(int id);
+    public void EliminarTablero(int id);
 
 }
 
@@ -26,7 +26,7 @@ public class TableroRepository : ITableroRepository
     {
         _ConnectionString = ConnectionString;
     }
-    public int CrearTablero(Tablero tablero)
+    public void CrearTablero(Tablero tablero)
     {
         int cant = 0;
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
@@ -44,10 +44,11 @@ public class TableroRepository : ITableroRepository
 
             connection.Close();
         }
-        return cant;
+        if(cant == 0)
+            throw new Exception("No se creó el tablero");
     }
 
-    public int ModificarTablero(int id, Tablero tablero)
+    public void ModificarTablero(int id, Tablero tablero)
     {
         int cant = 0;
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
@@ -67,7 +68,8 @@ public class TableroRepository : ITableroRepository
             connection.Close();
         }
 
-        return cant;
+        if(cant == 0)
+            throw new Exception("No se modificó el tablero");
     }
 
     public Tablero DetallesTablero(int id)
@@ -175,7 +177,7 @@ public class TableroRepository : ITableroRepository
         return tableros;
     }
 
-    public int EliminarTablero(int id)
+    public void EliminarTablero(int id)
     {
         int cant = 0, cant1 = 0;
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
@@ -204,6 +206,7 @@ public class TableroRepository : ITableroRepository
             connection.Close();
         }
 
-        return cant;
+        if(cant == 0)
+            throw new Exception("No se eliminó el tablero");
     }
 }

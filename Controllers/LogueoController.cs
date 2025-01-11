@@ -6,10 +6,12 @@ using Usuario_space;
 public class LogueoController : Controller
 {
     readonly IUsuarioRepository _usuarioRepository;
+    readonly ILogger<LogueoController> _logger;
 
-    public LogueoController(IUsuarioRepository usuarioRepository)
+    public LogueoController(IUsuarioRepository usuarioRepository, ILogger<LogueoController> logger)
     {
         _usuarioRepository = usuarioRepository;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -23,13 +25,14 @@ public class LogueoController : Controller
     [HttpPost]
     public IActionResult Login(string username, string password)
     {
-        List<Usuario> usuarios = _usuarioRepository.ListarUsuarios();
-        if(usuarios != null)
+        try
         {
+            List<Usuario> usuarios = _usuarioRepository.ListarUsuarios();
             var usuario = usuarios.FirstOrDefault(u => u.Nombre == username && u.Password == password);
 
             if(usuario == null)
             {
+                _logger.LogWarning("Intento de acceso inválido - Usuario: " + usuario.Nombre + " - Clave: " + usuario.Password);
                 ViewBag.error = "usuario no encontrado";
                 return View();
             }
@@ -38,9 +41,16 @@ public class LogueoController : Controller
             HttpContext.Session.SetInt32("rol", (int)usuario.RolUsuario);
             HttpContext.Session.SetString("nombre", usuario.Nombre);
 
+            _logger.LogInformation("El usuario "+ usuario.Nombre + " ingresó correctamente");
+
             return RedirectToAction("Index", "Usuarios");
         }
-        ViewBag.error = "no existen usuarios";
-        return View();
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            ViewBag.error = "no existen usuarios";
+            return View();
+        }
+
     }
 }
