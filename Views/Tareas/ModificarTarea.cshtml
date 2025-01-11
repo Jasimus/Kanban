@@ -4,6 +4,8 @@
 @using Kanban.Models
 @model Tarea_space.Tarea
 
+@section Scripts{<partial name="_ValidationScriptsPartial"/>}
+
 <header class="mb-5">
     <h1>Cambiar estado de tarea: @Model.Nombre</h1>
 </header>

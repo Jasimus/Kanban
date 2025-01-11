@@ -4,6 +4,9 @@
 @using Kanban.Models
 @model Usuario_space.Usuario
 
+
+
+
 @if(ViewBag.error != null && ViewBag.error != "")
 {
     <div class="alert alert-warning" role="alert">
@@ -37,8 +40,8 @@
             
 
             <div class="col">
-                <p class="mb-0">¿Has olvidado tu contraseña?</p>
-                <a asp-action="CambiarPasswordAntes" asp-controller="Usuarios">cambiar contraseña</a>
+                <p class="mb-0 text-muted">¿Has olvidado tu contraseña?</p>
+                <a asp-action="CambiarPasswordAntes" asp-controller="Usuarios" class="text-info">cambiar contraseña</a>
             </div>
         </div>
     </form>

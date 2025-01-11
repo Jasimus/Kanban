@@ -6,6 +6,8 @@
 @using Kanban.Models
 @model Tablero_space.Tablero
 
+@section Scripts{<partial name="_ValidationScriptsPartial"/>}
+
 @if(ViewBag.error != null && ViewBag.error != "")
 {
     <div class="alert alert-warning" role="alert">

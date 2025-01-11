@@ -38,7 +38,7 @@ public class TableroRepository : ITableroRepository
             SqliteCommand command = new SqliteCommand(query, connection);
             command.Parameters.AddWithValue("@nombre", tablero.Nombre);
             command.Parameters.AddWithValue("@id_usuario", tablero.IdUsuarioPropietario);
-            command.Parameters.AddWithValue("@descripcion", tablero.Descripcion);
+            command.Parameters.AddWithValue("@descripcion", tablero.Descripcion ?? "");
 
             cant = command.ExecuteNonQuery();
 
@@ -59,7 +59,7 @@ public class TableroRepository : ITableroRepository
             SqliteCommand command = new SqliteCommand(query, connection);
             command.Parameters.AddWithValue("@nombre", tablero.Nombre);
             command.Parameters.AddWithValue("@id_usuario", tablero.IdUsuarioPropietario);
-            command.Parameters.AddWithValue("@descripcion", tablero.Descripcion);
+            command.Parameters.AddWithValue("@descripcion", tablero.Descripcion ?? "");
             command.Parameters.AddWithValue("@id", id);
 
             cant = command.ExecuteNonQuery();
@@ -181,7 +181,7 @@ public class TableroRepository : ITableroRepository
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
-                
+
             string query1 = "SELECT * FROM Tarea WHERE id_tablero = @id;";
 
             SqliteCommand command1 = new SqliteCommand(query1, connection);

@@ -1,12 +1,21 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Tarea_space;
 
 public class Tarea
 {
+    [Required]
     int id;
+
+    [Required]
     int idTablero;
+
+    [Required]
     string nombre;
     string descripcion;
     string color;
+
+    [Required]
     EstadoTarea estado;
     int? idUsuarioAsignado;
 

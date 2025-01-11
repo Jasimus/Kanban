@@ -15,6 +15,7 @@ public class LogueoController : Controller
     [HttpGet]
     public IActionResult Login()
     {
+        HttpContext.Session.Clear();
         return View();
     }
 

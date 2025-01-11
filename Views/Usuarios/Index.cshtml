@@ -18,7 +18,7 @@
     {
         overflow: auto;
         border: 2px solid black;
-        background-color: rgb(204, 204, 204);    
+        background-color: rgb(107, 168, 170);   
     }
 
     ul#lista-ventana
@@ -40,14 +40,6 @@
         overflow: visible;
     }
 
-    li.button
-    {
-        border-radius: 8px;
-        padding: 2%;
-        margin-bottom: 8px;
-        box-sizing: border-box;
-    }
-
     .borde
     {
         border: 1px solid black;
@@ -65,7 +57,7 @@
             <ul id="lista-ventana">
                 @foreach(var t in @Model.Tareas)
                 {
-                    <li class="hover-container button" style="background-color: @t.Color;">
+                    <li class="hover-container button shadow" style="background-color: @t.Color;">
                     <div class="w-100 pb-2" id="titulo-tarea">
                         <p>@t.Nombre</p>
                     </div>
@@ -90,7 +82,7 @@
             <ul id="lista-ventana" class="pt-0">
                 @foreach(var t in @Model.Tableros)
                 {
-                    <li class="button my-3 row-dynamic row" id="tablero">
+                    <li class="button my-3 row-dynamic row shadow" id="tablero">
                         <p class="col-dynamic">@t.Nombre</p>
                         <a asp-action="DetalleTablero" asp-controller="Tableros" asp-route-id="@t.Id" class="col-dynamic btn btn-primary">Detalles</a>
                     </li>

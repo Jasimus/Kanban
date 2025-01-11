@@ -4,6 +4,8 @@
 @using Kanban.Models
 @model Usuario_space.Usuario
 
+@section Scripts{<partial name="_ValidationScriptsPartial"/>}
+
 @if(ViewBag.error != null && ViewBag.error != "")
 {
     <div class="alert alert-warning" role="alert">

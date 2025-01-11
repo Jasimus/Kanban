@@ -15,12 +15,19 @@
     {
         border-radius: 5px;
         padding: 3px;
+        margin: 0% 4%;
     }
 
-    #boton-tablero
+    .tablero
     {
-        
-    }    
+        background-color: rgb(34, 78, 80);
+    }
+
+    .row
+    {
+        --bs-gutter-x:0;
+    }
+    
 </style>
 
 <div>
@@ -28,30 +35,31 @@
     {
         @if(t.Tablero.IdUsuarioPropietario == idUsuario) display = "block";
         else display = "none";
-        <div>
-            <p>@t.Tablero.Nombre</p>
-            <div class="mt-2 row row-dynamic">
+
+        <div class="button tablero shadow">
+            <h3 class="text-white">@t.Tablero.Nombre</h3>
+            <div class="mt-2 row row-dynamic text-center">
                 <div class="col-dynamic row">
                     <div class="col text-center">
-                        <p class="estado" style="background-color: @ViewBag.EstadoTareaColor[1];">Ideas: @t.Ideas.Count</p>
+                        <p class="estado" style="background-color: @ViewBag.EstadoTareaColor[1];"><b>Ideas: @t.Ideas.Count</b></p>
                     </div>
                     <div class="col text-center">
-                        <p class="estado" style="background-color: @ViewBag.EstadoTareaColor[2];">ToDo: @t.ToDo.Count</p>
+                        <p class="estado" style="background-color: @ViewBag.EstadoTareaColor[2];"><b>ToDo: @t.ToDo.Count</b></p>
                     </div>
                     <div class="col text-center">
-                        <p class="estado" style="background-color: @ViewBag.EstadoTareaColor[3];">Doing: @t.Doing.Count</p>
+                        <p class="estado" style="background-color: @ViewBag.EstadoTareaColor[3];"><b>Doing: @t.Doing.Count</b></p>
                     </div>
                     <div class="col text-center">
-                        <p class="estado" style="background-color: @ViewBag.EstadoTareaColor[4];">Review: @t.Review.Count</p>
+                        <p class="estado" style="background-color: @ViewBag.EstadoTareaColor[4];"><b>Review: @t.Review.Count</b></p>
                     </div>
                     <div class="col text-center">
-                        <p class="estado" style="background-color: @ViewBag.EstadoTareaColor[5];">Done: @t.Done.Count</p>
+                        <p class="estado" style="background-color: @ViewBag.EstadoTareaColor[5];"><b>Done: @t.Done.Count</b></p>
                     </div>
                 </div>
                 <div class="row col-dynamic text-right">
                     <div class="col-4"></div>
                     <div class="text-center col-4" id="boton-tablero">
-                        <a asp-action="DetalleTablero" asp-controller="Tableros" class="btn btn-primary btn-dynamic" asp-route-id="@t.Tablero.Id">Detalle</a>
+                        <a asp-action="DetalleTablero" asp-controller="Tableros" class="btn btn-warning btn-dynamic" asp-route-id="@t.Tablero.Id">Detalle</a>
                     </div>
 
                     <div class="text-center col-4" id="boton-tablero">

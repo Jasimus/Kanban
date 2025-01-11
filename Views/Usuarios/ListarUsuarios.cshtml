@@ -1,10 +1,21 @@
 @{
     ViewData["Title"] = "Crear Usuario";
     var rol = Context.Session.GetInt32("rol");
-    var nombre = Context.Session.GetString("nombre");
+    string display = "none";
+
+    if(rol == 1) display = "block";
 }
 @using Kanban.Models
 @model List<Usuario_space.Usuario>
+
+<style>
+    .table
+    {
+        color: aliceblue;
+    }
+</style>
+
+
 
 <header class="mb-5">
     <h1>Lista de usuarios</h1>
@@ -15,17 +26,20 @@
     <th scope="col">Id</th>
     <th scope="col">Nombre</th>
     <th scope="col">Rol</th>
-    <th scope="col"></th>
+    @if(rol == 1)
+    {
+        <th scope="col"></th>
+    }
 </tr>
 
-@foreach(Usuario_space.Usuario u in @Model)
+@foreach(Usuario_space.Usuario u in Model)
 {
     <tr>
         <td scope="col">@u.Id</td>
         <td scope="col">@u.Nombre</td>
         <td scope="col">@u.RolUsuario</td>
 
-        <td class="text-center">
+        <td class="text-center d-@display">
             <a asp-action="ModificarUsuario" asp-route-id="@u.Id" class="btn btn-warning">Modificar</a>
             <a asp-action="EliminarUsuario" asp-route-id="@u.Id" class="btn btn-danger">Eliminar</a>
         </td>
@@ -35,6 +49,6 @@
 </table>
 
 
-<div class="col">
+<div class="col d-@display">
     <a asp-action="CrearUsuario" asp-controller="Usuarios" class="btn btn-primary">crear usuario</a>
 </div>
