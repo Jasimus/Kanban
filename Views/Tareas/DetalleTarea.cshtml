@@ -1,6 +1,6 @@
 @{
     ViewData["Title"] = "Detalle de tarea";
-    int idUsuario = (int)Context.Session.GetInt32("idUsuario");
+    int? idUsuario = Context.Session.GetInt32("idUsuario");
     string colorAsignado = "#b2fd85";
     string colorEstado = ViewBag.EstadoTareaColor[(int)Model.Estado];
 }
@@ -56,7 +56,7 @@
     </div>
 
     <div id="color" class="text-center mb-3">
-        <p>COLOR</p>
+        <p><b>COLOR</b></p>
     </div>
 
     <div class="mb-3" id="estado">

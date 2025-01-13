@@ -7,7 +7,7 @@ public interface IUsuarioRepository
     public void CrearUsuario(Usuario usuario);
     public void ModificarUsuario(int id, Usuario usuario);
     public List<Usuario> ListarUsuarios();
-    public Usuario DetallesUsuario(int id);
+    public Usuario? DetallesUsuario(int id);
     public void EliminarUsuario(int id);
     public void CambiarPassword(int id, string password);
 }
@@ -97,9 +97,9 @@ public class UsuarioRepository : IUsuarioRepository
         return usuarios;
     }
 
-    public Usuario DetallesUsuario(int id)
+    public Usuario? DetallesUsuario(int id)
     {
-        Usuario usuario = null;
+        Usuario? usuario = null;
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();
@@ -133,11 +133,15 @@ public class UsuarioRepository : IUsuarioRepository
         {
             connection.Open();
                 
+            string query1 = "DELETE FROM Tarea WHERE id_usuario_asignado = @id;";
             string query = "DELETE FROM Usuario WHERE id = @id;";
 
             SqliteCommand command = new SqliteCommand(query, connection);
+            SqliteCommand command1 = new SqliteCommand(query1, connection);
             command.Parameters.AddWithValue("@id", id);
+            command1.Parameters.AddWithValue("@id", id);
             
+            command1.ExecuteNonQuery();
             cant = command.ExecuteNonQuery();
 
             connection.Close();

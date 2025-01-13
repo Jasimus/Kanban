@@ -6,28 +6,29 @@ public class Tarea
 {
     [Required]
     int id;
-
     [Required]
     int idTablero;
-
     [Required]
-    string nombre;
-    string descripcion;
-    string color;
+    string? nombre;
+    string? descripcion;
+    string? color;
 
-    [Required]
     EstadoTarea estado;
-    int? idUsuarioAsignado;
+    int idUsuarioAsignado;
 
     public int Id { get => id; set => id = value; }
+
     public int IdTablero { get => idTablero; set => idTablero = value; }
-    public string Nombre { get => nombre; set => nombre = value; }
-    public string Descripcion { get => descripcion; set => descripcion = value; }
-    public string Color { get => color; set => color = value; }
-    public int? IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
+
+    public string? Nombre { get => nombre; set => nombre = value; }
+    
+    public string? Descripcion { get => descripcion; set => descripcion = value; }
+    public string? Color { get => color; set => color = value; }
+    public int IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
+    [Required]
     public EstadoTarea Estado { get => estado; set => estado = value; }
 
-    public Tarea(int id, int idTablero, string nombre, string descripcion, string color, int estado, int? idUsuarioAsignado)
+    public Tarea(int id, int idTablero, string? nombre, string? descripcion, string? color, int estado, int idUsuarioAsignado)
     {
         this.id = id;
         this.idTablero = idTablero;

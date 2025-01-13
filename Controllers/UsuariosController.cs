@@ -25,7 +25,7 @@ public class UsuariosController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        int id = (int)HttpContext.Session.GetInt32("idUsuario");
+        int? id = HttpContext.Session.GetInt32("idUsuario");
         var indexVM = new IndexVM
         {
             Tableros = _tableroRepository.ListarTablerosDeUsuario(id),

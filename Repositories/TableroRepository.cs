@@ -8,7 +8,7 @@ public interface ITableroRepository
 {
     public void CrearTablero(Tablero tablero);
     public void ModificarTablero(int id, Tablero tablero);
-    public Tablero DetallesTablero(int id);
+    public Tablero? DetallesTablero(int id);
     public List<Tablero> ListarTableros();
     public List<Tablero> ListarTablerosDeUsuario(int? id);
     public List<Tablero> ListarTablerosDeOtros(int? id);
@@ -72,9 +72,9 @@ public class TableroRepository : ITableroRepository
             throw new Exception("No se modificó el tablero");
     }
 
-    public Tablero DetallesTablero(int id)
+    public Tablero? DetallesTablero(int id)
     {
-        Tablero tablero = null;
+        Tablero? tablero = null;
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();

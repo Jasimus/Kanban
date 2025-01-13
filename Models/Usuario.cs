@@ -7,18 +7,18 @@ public class Usuario
     int id;
 
     [Required]
-    string nombre;
+    string? nombre;
 
     [Required]
-    string password;
+    string? password;
     RolUsuario rolUsuario;
 
     public int Id { get => id; set => id = value; }
-    public string Nombre { get => nombre; set => nombre = value; }
-    public string Password { get => password; set => password = value; }
+    public string? Nombre { get => nombre; set => nombre = value; }
+    public string? Password { get => password; set => password = value; }
     public RolUsuario RolUsuario {get => rolUsuario; set => rolUsuario = value; }
 
-    public Usuario(int id, string nombre, string password, int rol)
+    public Usuario(int id, string? nombre, string? password, int rol)
     {
         this.id = id;
         this.nombre = nombre;

@@ -6,7 +6,7 @@ public interface ITareaRepository
 {
     public void CrearTarea(int id, Tarea tarea);
     public void ModificarTarea(int id, Tarea tarea);
-    public Tarea DetallesTarea(int id);
+    public Tarea? DetallesTarea(int id);
     public List<Tarea> ListarTareasDeUsuario(int? id);
     public List<Tarea> ListarTareasDeTablero(int id);
     public void EliminarTarea(int id);
@@ -74,9 +74,9 @@ public class TareaRepository : ITareaRepository
             throw new Exception("No se modificó la tarea");
     }
 
-    public Tarea DetallesTarea(int id)
+    public Tarea? DetallesTarea(int id)
     {
-        Tarea tarea = null;
+        Tarea? tarea = null;
         using (SqliteConnection connection = new SqliteConnection(_ConnectionString))
         {
             connection.Open();

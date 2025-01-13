@@ -1,6 +1,6 @@
 @{
     ViewData["Title"] = "Detalle de tablero";
-    int idUsuario = (int)Context.Session.GetInt32("idUsuario");
+    int? idUsuario = Context.Session.GetInt32("idUsuario");
     string display = "none";
     string border = "0px";
     string borderColorAsignado = "#000";
@@ -214,7 +214,7 @@
     </div>
 </div>  
 
-<div class="row w-50">
+<div class="row w-50 d-@display">
     <div class="opcion-tablero">
         <a asp-action="EliminarTablero" asp-controller="Tableros" asp-route-id="@Model.Tablero.Id" class="btn btn-danger w-100">Eliminar tablero</a>
     </div>
@@ -229,9 +229,9 @@
     document.querySelectorAll('.button').forEach((button) => {
     const tooltip = button.querySelector('.custom-tooltip');
     new bootstrap.Tooltip(button, {
-        customClass: 'my-custom-tooltip', // Clase personalizada
-        html: true, // Permite contenido HTML en el tooltip
-        title: tooltip.innerHTML, // Contenido del tooltip
+        customClass: 'my-custom-tooltip',
+        html: true,
+        title: tooltip.innerHTML,
     });
 });
 </script>

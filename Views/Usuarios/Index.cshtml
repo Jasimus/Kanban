@@ -111,3 +111,16 @@
         </div>
     </div>
 </body>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.querySelectorAll('.button').forEach((button) => {
+    const tooltip = button.querySelector('.custom-tooltip');
+    new bootstrap.Tooltip(button, {
+        customClass: 'my-custom-tooltip',
+        html: true,
+        title: tooltip.innerHTML,
+    });
+});
+</script>

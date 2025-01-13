@@ -28,11 +28,11 @@ public class LogueoController : Controller
         try
         {
             List<Usuario> usuarios = _usuarioRepository.ListarUsuarios();
-            var usuario = usuarios.FirstOrDefault(u => u.Nombre == username && u.Password == password);
+            Usuario? usuario = usuarios.FirstOrDefault(u => u.Nombre == username && u.Password == password);
 
             if(usuario == null)
             {
-                _logger.LogWarning("Intento de acceso inválido - Usuario: " + usuario.Nombre + " - Clave: " + usuario.Password);
+                _logger.LogWarning("Intento de acceso inválido - Usuario: " + username + " - Clave: " + password);
                 ViewBag.error = "usuario no encontrado";
                 return View();
             }

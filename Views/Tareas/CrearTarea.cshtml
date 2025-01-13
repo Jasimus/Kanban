@@ -1,6 +1,5 @@
 @{
     ViewData["Title"] = "Crear Tarea";
-    string display = "none";
 }
 @using Kanban.Models
 @model Tarea_space.Tarea
@@ -14,13 +13,12 @@
     </div>
 }
 
-<h1 class="mb-5">Crear Usuario</h1>
+<h1 class="mb-5">Crear Tarea</h1>
 
 <form asp-controller="Tareas" asp-action="CrearTarea" method="post">
 
     <input type="hidden" value="0" asp-for="Id">
     <input type="hidden" value="@ViewBag.idTablero" asp-for="IdTablero">
-    using Tarea_space;
 
     <div class="form-group">
         <label for="Nombre">Nombre</label>

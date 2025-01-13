@@ -37,6 +37,11 @@ label
   color: white;
 }
 
+legend
+{
+  color: white;
+}
+
 input.form-control
 {
   background-color: rgb(5, 17, 27) !important;
